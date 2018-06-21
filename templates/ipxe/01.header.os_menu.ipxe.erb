@@ -1,0 +1,17 @@
+# ******************** iPXE OS Menu Header *************************
+# Automatically enerated from <%= @module_name %> by
+# file: <%= @module_name %>/templates/ipxe/header.os_menu.ipxe.erb
+
+set menu-timeout 5000
+set submenu-timeout ${menu-timeout}
+isset ${menu-default} || set menu-default exit
+
+# Figure out if client is 64-bit capable
+cpuid --ext 29 && set arch x64 || set arch x86
+cpuid --ext 29 && set arch amd64 || set arch i386
+
+###################### MAIN MENU ####################################
+
+:start
+menu iPXE boot menu for ${initiator-iqn}
+item --gap --             ------------------------- Operating systems ------------------------------
