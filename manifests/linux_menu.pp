@@ -1,15 +1,13 @@
 # A description of what this defined type does
 #
-# @summary A short summary of the purpose of this defined type.
+# @summary This Class defines the creation of the linux ipxe menu infrastructure
 #
 # @example
 #   pxe2_ipxe_menus::linux_menu { 'namevar': }
+
 define pxe2_ipxe_menus::linux_menu(
-# Class: pxe2_ipxe_menus::pxelinux
-#
-# This Class defines the creation of the linux pxe infrastructure
-#
   # The following pxe menu variables are required for the templates used in this class
+  $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path
   $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
@@ -23,20 +21,6 @@ define pxe2_ipxe_menus::linux_menu(
 
 # this regex works w/ no .
 #if $name =~ /([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+)/ {
-  if $pxe2_ipxe_menus::use_local_proxy {
-    Staging::File {
-      # Some curl_options to add for downloading large files over questionable links
-      # Use local cache   * --proxy http://${ipaddress}:3128
-      # Continue Download * -C 
-      # Maximum Time      * --max-time 1500 
-      # Retry             * --retry 3 
-      curl_option => "--proxy http://${::ipaddress}:3128 --retry 3",
-      #
-      # Puppet waits for the Curl execution to finish
-      #
-      timeout     => '0',
-    }
-  }
 
   # Define proper name formatting matching distro-release-p_arch
   if $name =~ /([a-zA-Z0-9_\.]+)-([a-zA-Z0-9_\.]+)-([a-zA-Z0-9_\.]+)/ {
@@ -677,284 +661,6 @@ define pxe2_ipxe_menus::linux_menu(
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
     }
-    if ( $pxe2_ipxe_menus::matchbox_enable ) {
-      notice("matchbox/groups/${release}-install.json")
-      exec{"matchbox_get-coreos_${coreos_channel}-${coreos_version}":
-        command   => "/usr/local/bin/get-coreos ${coreos_channel} ${coreos_version} /var/lib/matchbox/assets",
-        logoutput => true,
-        timeout   => 0,
-        user      => 'root',
-        creates   => [
-        "/var/lib/matchbox/assets/coreos/${coreos_version}",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/CoreOS_Image_Signing_Key.asc",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_image.bin.bz2",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_image.bin.bz2.sig",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_pxe_image.cpio.gz",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_pxe_image.cpio.gz.sig",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_pxe.vmlinuz",
-        "/var/lib/matchbox/assets/coreos/${coreos_version}/coreos_production_pxe.vmlinuz.sig",
-        ],
-        require   => File['/var/lib/matchbox/assets'],
-      }
-      # Begin Examples
-      file{[
-        "/var/lib/matchbox/examples/${coreos_version}",
-        "/var/lib/matchbox/examples/${coreos_version}/groups",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/simple",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/simple-install",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/grub",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube",
-        "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube-install",
-        "/var/lib/matchbox/examples/${coreos_version}/profiles",
-#        "/var/lib/matchbox/examples/${coreos_version}/ignition",
-      ]:
-        ensure  => directory,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/ignition":
-        ensure  => directory,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        recurse => true,
-        source  => 'puppet:///modules/pxe2_ipxe_menus/coreos/matchbox/ignition',
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/grub/default.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/grub/default.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/simple/default.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/simple/default.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/simple-install/simple.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/simple-install/simple.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/simple-install/install.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/simple-install/install.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3/gateway.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3/gateway.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3/node1.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3/node1.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3/node2.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3/node2.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3/node3.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3/node3.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install/gateway.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3-install/gateway.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install/node1.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3-install/node1.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install/node2.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3-install/node2.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install/node3.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3-install/node3.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/etcd3-install/install.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/etcd3-install/install.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube/node1.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube/node1.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube/node2.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube/node2.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube/node3.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube/node3.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube-install/node1.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube-install/node1.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube-install/node2.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube-install/node2.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube-install/node3.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube-install/node3.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/groups/bootkube-install/install.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/groups/bootkube-install/install.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/simple.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/simple.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/simple-install.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/simple-install.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/grub.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/grub.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/etcd3.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/etcd3.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/etcd3-gateway.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/etcd3-gateway.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/bootkube-worker.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/bootkube-worker.json.erb'),
-      }
-      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/bootkube-controller.json":
-        ensure  => file,
-        owner   => 'matchbox',
-        group   => 'matchbox',
-        content => template('pxe2_ipxe_menus/matchbox/profiles/bootkube-controller.json.erb'),
-      }
-# Below is commented out until bits are properly cleaned up.
-      # matchbox profiles grub.json
-#
-#      file{ "/var/lib/matchbox/groups/${release}-install.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/groups.channel-install.json.erb'),
-#      }
-#      notice("matchbox/profiles/${release}-install.json")
-#      file{ "/var/lib/matchbox/profiles/${release}-install.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.channel-install.json.erb'),
-#      }
-#      notice("matchbox/groups/${release}.json")
-#      file{ "/var/lib/matchbox/groups/${release}.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/groups.channel.json.erb'),
-#      }
-      # matchbox groups etcd3-install.json
-#      file{ "/var/lib/matchbox/groups/etcd3-${release}-install.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/groups.etcd3-install.json.erb'),
-#      }
-      # Begin Examples
-#      notice("matchbox/profiles/${release}.json")
-#      file{ "/var/lib/matchbox/profiles/${release}.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.channel.json.erb'),
-#      }
-      # matchbox profiles grub.json
-#      file{ "/var/lib/matchbox/examples/${coreos_version}/profiles/grub-${release}.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.grub.json.erb'),
-#      }
-
-      # matchbox profiles etcd3.json
-#      file{ "/var/lib/matchbox/profiles/etcd3-${release}.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.etcd3.json.erb'),
-#      }
-
-      # matchbox profiles etcd3-gateway.json
-#      file{ "/var/lib/matchbox/profiles/etcd3-gateway-${release}.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.etcd3-gateway.json.erb'),
-#      }
-
-     # profiles install-channel-reboot.json
-#      file{ "/var/lib/matchbox/profiles/install-${release}-reboot.json":
-#        ensure  => file,
-#        owner   => 'matchbox',
-#        group   => 'matchbox',
-#        content => template('pxe2_ipxe_menus/matchbox/profiles.install-channel-reboot.json.erb'),
-#      }
-
-    }
-  }
 
   if ( $distro == 'rancheros' ) {
     case $release {
@@ -1037,144 +743,34 @@ define pxe2_ipxe_menus::linux_menu(
   notice($rel_name)
 
 
-# Retrieve installation kernel file if supported
-  case $url {
-    'ISO Required instead of URL':{
-#      if $boot_iso_name {
-#        warning("A specific boot_iso_name: ${boot_iso_name} exists for ${name}" )
-#        $final_boot_iso_name = $boot_iso_name
-#      } else {
-#        $final_boot_iso_name = "${release}-${p_arch}-boot.iso"
-#        $final_boot_iso_name = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
-#      }
-#      notice($final_boot_iso_name)
-      if ! defined (Staging::File["${name}-boot.iso"]){
-#        staging::file{"${name}-boot.iso":
-#          source  => $boot_iso_url,
-##          target  => "/${pxe2_path}/${distro}/ISO/${final_boot_iso_name}",
-#          target  => "/${pxe2_path}/${distro}/ISO/${boot_iso_name}",
-          # Because we are grabbing ISOs here we may need more time when downloading depending on network connection
-          # This wget_option will continue downloads (-c) use ipv4 (-4) retry refused connections and failed errors (--retry-connrefused ) then wait 1 sec
-          # before next retry (--waitretry=1), wait a max of 20 seconds if no data is recieved and try again (--read-timeout=20)
-          # wait max 15 sec before initial connect times out ( --timeout=15) and retry inifinite times ( -t 0)
-#          wget_option => '-c -4 --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0',
-#          require =>[
-#            Tftp::File["${distro}/${p_arch}"],
-#            File["/${pxe2_path}/${distro}/ISO"],
-#          ],
-#          timeout     => '0',
-#        }
-        # Retrieve installation kernel file if supported
-#        if ! defined (Staging::File["bootiso-${target_kernel}-${name}"]){
- #         staging::file{"bootiso-${target_kernel}-${name}":
-#            source  => "http://${fqdn}/${distro}/mnt/${final_boot_iso_name}/images/pxeboot/${pxekernel}",
-  #          source  => "http://${fqdn}/${distro}/mnt/${boot_iso_name}/images/pxeboot/${pxekernel}",
-  #          target  => "/${pxe2_path}/tftpboot/${distro}/${p_arch}/${target_kernel}",
-  #          owner   => $::tftp::username,
-   #         group   => $::tftp::username,
-   #         require => [
-   #           Autofs::Mount["${distro}"],
-   #           Staging::File["${name}-boot.iso"],
-   #         ],
-   #       }
-   #     }
-        # Retrieve initrd file if supported
-   #     if ! defined (Staging::File["bootiso-${target_initrd}-${name}"]){
-#          staging::file{"bootiso-${target_initrd}-${name}":
-#           source  => "http://${fqdn}/${distro}/mnt/${final_boot_iso_name}/images/pxeboot/${src_initrd}",
-#            source  => "http://${fqdn}/${distro}/mnt/${boot_iso_name}/images/pxeboot/${src_initrd}",
-#            target  => "/${pxe2_path}/tftpboot/${distro}/${p_arch}/${target_initrd}",
-#            owner   => $::tftp::username,
-#            group   => $::tftp::username,
-#            require => [
-#              Autofs::Mount["${distro}"],
-#              Staging::File["${name}-boot.iso"],
-#            ],
-#          }
-#        }
-#      }
-#    }
-#    'No URL Specified':{
-#      warning("No URL is specified for ${name}")
-#    }
-#    default:{
-    # Retrieve installation kernel file if supported
-#      if ! defined (Staging::File["${target_kernel}-${name}"]){
-#        staging::file{"${target_kernel}-${name}":
-#          source  => "${url}/${pxekernel}",
-#          target  => "/${pxe2_path}/tftpboot/${distro}/${p_arch}/${target_kernel}",
-#          owner   => $::tftp::username,
-#          group   => $::tftp::username,
-#          require => Tftp::File["${distro}/${p_arch}"],
-#        }
-#      }
-      # Retrieve initrd file if supported
-#      if ! defined (Staging::File["${target_initrd}-${name}"]){
-#        staging::file{"${target_initrd}-${name}":
-#          source  => "${url}/${src_initrd}",
-#          target  => "/${pxe2_path}/tftpboot/${distro}/${p_arch}/${target_initrd}",
-#          owner   => $::tftp::username,
-#          group   => $::tftp::username,
-#          require =>  Tftp::File["${distro}/${p_arch}"],
-#        }
-#      }
-#     if ! defined (Staging::File["dot_bootsplash-${name}"]){
-#       staging::file{"dot_bootsplash-${name}":
-#         source  => $splashurl,
-#         target  => "/${pxe2_path}/tftpboot/${distro}/graphics/${name}${_dot_bootsplash}",
-#         require =>  Tftp::File["${distro}/graphics"],
-#       }
-#     }
-#    }
-#  }
+# Distro Specific Folders
 
-#  if ! defined (Staging::File["_dot_bootsplash-${name}"]){
-#    staging::file{"_dot_bootsplash-${name}":
-#      source  => $splashurl,
-#      target  => "/${pxe2_path}/tftpboot/${distro}/graphics/${name}${_dot_bootsplash}",
-#      require =>  Tftp::File["${distro}/graphics"],
-#    }
-#  }
 
-# Distro Specific TFTP Folders
-
-  Tftp::File{
-    owner => $::tftp::username,
-    group => $::tftp::username,
-  }
-
-  if ! defined (Tftp::File[$distro]){
-    tftp::file { $distro:
+  if ! defined (File["${pxe2_path}/$distro"]){
+    file { "${pxe2_path}/$distro":
       ensure  => directory,
     }
   }
 
 
-  if ! defined (Tftp::File["${distro}/menu"]){
-    tftp::file { "${distro}/menu":
+  if ! defined (File["${pxe2_path}/${distro}/menu"]){
+    file { "${pxe2_path}/${distro}/menu":
       ensure  => directory,
     }
   }
 
-  if ! defined (Tftp::File["${distro}/graphics"]){
-    tftp::file { "${distro}/graphics":
+  if ! defined (File["${pxe2_path}/${distro}/graphics"]){
+    tftp::file { "${pxe2_path}/${distro}/graphics":
       ensure  => directory,
     }
   }
 
-  if ! defined (Tftp::File["${pxe2_path}/${distro}/${p_arch}"]){
+  if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]){
     file { "${pxe2_path}/${distro}/${p_arch}":
       ensure  => directory,
     }
   }
 
-# Distro Specific TFTP Graphics.conf
-
-if $linux_installer == !('No Supported Linux Installer') {
-  file { "${pxe2_path}/${distro}/menu/${name}.graphics.conf":
-    content => template("pxe2_ipxe_menus/pxemenu/${linux_installer}.graphics.erb"),
-  }
-}
 #################################################
 # Begin Creating Distro Specific HTTP Folder Tree 
 #################################################
@@ -1188,8 +784,8 @@ if $linux_installer == !('No Supported Linux Installer') {
     notice(File["${pxe2_path}/${distro}"])
   }
 
-  if ! defined (File["/${pxe2_path}/${distro}/${autofile}"]) {
-    file { "/${pxe2_path}/${distro}/${autofile}":
+  if ! defined (File["${pxe2_path}/${distro}/${autofile}"]) {
+    file { "${pxe2_path}/${distro}/${autofile}":
       ensure  => directory,
       require => File[ "${pxe2_path}/${distro}" ],
     }
@@ -1203,96 +799,11 @@ if $linux_installer == !('No Supported Linux Installer') {
     notice(File["${pxe2_path}/${distro}/${p_arch}"])
   }
 
-  if ! defined (Concat["/${pxe2_path}/${distro}/.README.html"]) {
-    concat{ "/${pxe2_path}/${distro}/.README.html":
-      owner   => $::nginx::daemon_user,
-      group   => $::nginx::daemon_user,
-      mode    => '0644',
-      require => File[ "/${pxe2_path}/${distro}" ],
-    }
-  }
-
-  ## .README.html (HEADER) /${pxe2_path}/distro/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_README_header"]) {
-    concat::fragment { "${distro}.default_README_header":
-      target  => "${pxe2_path}/${distro}/.README.html",
-      content => "<html>
-<head><title> ${distro} ${release} ${p_arch}</title></head>
-<body>
-<h1>Operating System: ${distro} </h1>
-<h2>Platform Releases Installed: </h2>
-<ul>",
-      order   => 01,
-    }
-  }
-  ## .README.html (BODY) /${pxe2_path}/distro/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_README_release_body.${name}"]) {
-    concat::fragment { "${distro}.default_README_release_body.${name}":
-      target  => "${pxe2_path}/${distro}/.README.html",
-      content => "<li>${release} (${p_arch})</li> ",
-      order   => 02,
-    }
-  }
-  ## .README.html (FOOTER) /${pxe2_path}/distro/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_README_footer"]) {
-    concat::fragment { "${distro}.default_README_footer":
-      target  => "${pxe2_path}/${distro}/.README.html",
-#      content => template('pxe2_ipxe_menus/README.html.footer.erb'),
-      content => '</ul>
-</body>
-</html>',
-      order   => 03,
-    }
-  }
-  notice(File["${pxe2_path}/${distro}/.README.html"])
-
-
-  ## .README.html (FILE) /pxe2_ipxe_menus/distro/p_arch/.README.html
-  if ! defined (Concat["${pxe2_path}/${distro}/${p_arch}/.README.html"]) {
-    concat{ "${pxe2_path}/${distro}/${p_arch}/.README.html":
-      mode    => '0644',
-      require => File[ "/${pxe2_path}/${distro}/${p_arch}" ],
-    }
-  }
-  ## .README.html (HEADER) /pxe2_ipxe_menus/distro/p_arch/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_${p_arch}_README_header"]) {
-    concat::fragment { "${distro}.default_${p_arch}_README_header":
-      target  => "${pxe2_path}/${distro}/${p_arch}/.README.html",
-      content => template('pxe2_ipxe_menus/README.html.header.erb'),
-      order   => 01,
-    }
-  }
-  ## .README.html (BODY 1) /pxe2_ipxe_menus/distro/p_arch/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_README_p_arch_body"]) {
-    concat::fragment { "${distro}.default_README_p_arch_body":
-      target  => "${pxe2_path}/${distro}/${p_arch}/.README.html",
-      content => "<h3>Processor Arch: ${p_arch}</h3>",
-      order   => 02,
-    }
-  }
-  ## .README.html (BODY TEMPLATE) /pxe2_ipxe_menus/distro/p_arch/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_${p_arch}_README_body.${name}"]) {
-    concat::fragment { "${distro}.default_${p_arch}_README_body.${name}":
-      target  => "${pxe2_path}/${distro}/${p_arch}/.README.html",
-      content => template('pxe2_ipxe_menus/README.html.body.erb'),
-      order   => 03,
-    }
-  }
-  ## .README.html (FOOTER) /pxe2_ipxe_menus/distro/p_arch/.README.html
-  if ! defined (Concat::Fragment["${distro}.default_${p_arch}_README_footer"]) {
-    concat::fragment { "${distro}.default_${p_arch}_README_footer":
-      target  => "${pxe2_path}/${distro}/${p_arch}/.README.html",
-      content => template('pxe2_ipxe_menus/README.html.footer.erb'),
-      order   => 04,
-    }
-  }
-
-
   #  Distro Kickstart/Preseed File
   file { "${name}.${autofile}":
     ensure  => file,
     path    => "${pxe2_path}/${distro}/${autofile}/${name}.${autofile}",
-    content => template("pxe2_ipxe_menus/autoinst/${autofile}.erb"),
+    content => template("pxe2_ipxe_menus/unattended_installation/${autofile}.erb"),
     require => File[ "${pxe2_path}/${distro}/${autofile}" ],
   }
 
@@ -1300,11 +811,13 @@ if $linux_installer == !('No Supported Linux Installer') {
   if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
     concat::fragment { "${distro}.default_menu_entry":
       target  => '/${pxe2_path}/tftpboot/pxelinux/pxelinux.cfg/default',
-      content => template('pxe2_ipxe_menus/pxemenu/default.erb'),
+      content => template('pxe2_ipxe_menus/ipxe/default.erb'),
       order   => 02,
     }
   }
-  # PXEMENU ( menu/distro.menu ) 
+  
+  
+  # Syslinux PXEMENU ( menu/distro.menu ) 
   if ! defined (Concat["${pxe2_path}/tftpboot/menu/${distro}.menu"]) {
     concat { "${pxe2_path}/tftpboot/menu/${distro}.menu":
     }
@@ -1312,18 +825,18 @@ if $linux_installer == !('No Supported Linux Installer') {
   if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
     concat::fragment {"${distro}.submenu_header":
       target  => "${pxe2_path}/tftpboot/menu/${distro}.menu",
-      content => template('pxe2_ipxe_menus/pxemenu/header2.erb'),
+      content => template('pxe2_ipxe_menus/ipxe/header2.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
     concat::fragment {"${distro}.${name}.menu_item":
       target  => "${pxe2_path}/tftpboot/menu/${distro}.menu",
-#      content => template("pxe2_ipxe_menus/pxemenu/${linux_installer}.erb"),
-      content => template("pxe2_ipxe_menus/pxemenu/default2.erb"),
+#      content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
+      content => template("pxe2_ipxe_menus/ipxe/default2.erb"),
     }
   }
   file { "${pxe2_path}/${distro}/menu/${name}.menu":
-    content => template("pxe2_ipxe_menus/pxemenu/${linux_installer}.erb"),
+    content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
   }
 }
