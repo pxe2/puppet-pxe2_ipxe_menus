@@ -280,18 +280,32 @@ class{'pxe2_ipxe_menus': }
   pxe2_ipxe_menus::linux_menu{'oraclelinux-7.3-x86_64':}
   pxe2_ipxe_menus::linux_menu{'oraclelinux-7.4-x86_64':}
   pxe2_ipxe_menus::linux_menu{'oraclelinux-7.5-x86_64':}
+
   # Debian
+  # i386
   pxe2_ipxe_menus::linux_menu{'debian-5-i386':}
-  pxe2_ipxe_menus::linux_menu{'debian-5-amd64':}
   pxe2_ipxe_menus::linux_menu{'debian-6-i386':}
+  pxe2_ipxe_menus::linux_menu{'debian-7-i386':}
+  pxe2_ipxe_menus::linux_menu{'debian-8-i386':}
+  pxe2_ipxe_menus::linux_menu{'debian-9-i386':}
+  # Debian
+  # x86_64
+  pxe2_ipxe_menus::linux_menu{'debian-5-amd64':}
   pxe2_ipxe_menus::linux_menu{'debian-6-amd64':}
   pxe2_ipxe_menus::linux_menu{'debian-7-amd64':}
-  pxe2_ipxe_menus::linux_menu{'debian-7-i386':}
   pxe2_ipxe_menus::linux_menu{'debian-8-amd64':}
-  pxe2_ipxe_menus::linux_menu{'debian-8-i386':}
   pxe2_ipxe_menus::linux_menu{'debian-9-amd64':}
-  pxe2_ipxe_menus::linux_menu{'debian-9-i386':}
-  # Kali Linux 
+
+  # Devuan
+  # i386
+  pxe2_ipxe_menus::linux_menu{'devuan-1.0-i386':}
+  pxe2_ipxe_menus::linux_menu{'devuan-2.0-i386':}
+  # Devuan
+  # amd64
+  pxe2_ipxe_menus::linux_menu{'devuan-1.0-amd64':}
+  pxe2_ipxe_menus::linux_menu{'devuan-2.0-amd64':}
+
+
   # Kali Linux 
   pxe2_ipxe_menus::linux_menu{'kali-current-amd64':}
   pxe2_ipxe_menus::linux_menu{'kali-current-i386':}
