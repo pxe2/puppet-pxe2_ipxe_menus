@@ -1,0 +1,8 @@
+version: '3'
+services:
+  pxe2-ipxe-menus:
+    image: "${USERNAME}/${IMAGE}:${VERSION}"
+    container_name: pxe2-ipxe-menus
+    build:
+      context: .
+      dockerfile: Dockerfile
