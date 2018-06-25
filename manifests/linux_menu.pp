@@ -805,25 +805,25 @@ which you are curenntly using.")
     }
   }
   # Syslinux PXEMENU ( menu/distro.menu ) 
-  if ! defined (Concat["${pxe2_path}/menu/${distro}.menu"]) {
-    concat { "${pxe2_path}/menu/${distro}.menu":
+  if ! defined (Concat["${pxe2_path}/menu/${distro}.ipxe"]) {
+    concat { "${pxe2_path}/menu/${distro}.ipxe":
     }
   }
   if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
     concat::fragment {"${distro}.submenu_header":
-      target  => "${pxe2_path}/menu/${distro}.menu",
+      target  => "${pxe2_path}/menu/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
     concat::fragment {"${distro}.${name}.menu_item":
-      target  => "${pxe2_path}/menu/${distro}.menu",
+      target  => "${pxe2_path}/menu/${distro}.ipxe",
 #      content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
       content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
     }
   }
-  file { "${pxe2_path}/${distro}/menu/${name}.menu":
+  file { "${pxe2_path}/${distro}/menu/${name}.ipxe":
 #    content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
     content => template("pxe2_ipxe_menus/ipxe/linux.ipxe.erb"),
   }

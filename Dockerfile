@@ -2,7 +2,7 @@ FROM puppet/puppet-agent-alpine:latest
 LABEL maintainer="peter@pouliot.net"
 COPY Dockerfile /Dockerfile
 ADD VERSION .
-
+VOLUME $(pwd)/pxe2 /pxe2
 RUN mkdir -p /etc/puppetlabs/code/modules/pxe2_ipxe_menus
 COPY . /etc/puppetlabs/code/modules/pxe2_ipxe_menus
 

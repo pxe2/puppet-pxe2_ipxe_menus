@@ -6,3 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - "./pxe2:/pxe2"
+volumes:
+  pxe2:
