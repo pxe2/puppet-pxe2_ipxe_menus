@@ -36,6 +36,11 @@ class pxe2_ipxe_menus::files (
     recurse => true,
   } ->
 
+
+  # *******************************************************
+  # *************** Post Install Scripts ******************
+  # *******************************************************
+
   # Firstboot Script
   # This is script is added to the ubuntu/debian hosts via
   # the postinstall script. It will install configuration management
@@ -63,13 +68,67 @@ class pxe2_ipxe_menus::files (
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/postinstall.erb'),
   }
+    
+  # ************************************************************
+  # *************** iPXE Boot Menu Entrypoint ******************
+  # ************************************************************
 
-  concat {"${pxe2_path}/ipxe/default":
-    owner => $::tftp::username,
-    group => $::tftp::username,
+
+  file {"${pxe2_path}/index.html":
+    ensure  => file,
+    mode    => '0777',
+    content => ' \
+#!ipxe
+
+# This is the entrypoint to load the pxe.to iPXE menu.P
+
+set conn_type https
+chain --autofree https://pxe.to/menu.ipxe || echo HTTPS Failure! attempting HTTP...
+set conn_type http
+chain --autofree http://pxe.to/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
+    ',
+  }
+  file {"${pxe2_path}/ipxe.cfg":
+    ensure  => file,
+    mode    => '0777',
+    content => ' \
+#!ipxe
+
+:global_vars
+# set site name
+set site_name pxe.to
+
+# set boot domain
+set boot_domain pxe.to
+
+# set location of memdisk
+set memdisk http://${boot_domain}/memdisk
+
+# signature check enabled?
+set sigs_enabled true
+
+# image signatures check enabled?
+set img_sigs_enabled true
+
+# set location of signatures for sources
+set sigs http://${boot_domain}/sigs/
+
+# set location of latest iPXE
+set ipxe_disk pxe.to-undionly.kpxe
+
+:end
+exit
+',
+  }
+
+
+
+
+  concat {"${pxe2_path}/ipxe/menu.ipxe": 
+    mode    => '0777',
   }
   concat::fragment{'default_header':
-    target  => "${pxe2_path}/ipxe/default",
+    target  => "${pxe2_path}/ipxe/menu.ipxe",
     content => template('pxe2_ipxe_menus/ipxe/01.header.ipxe.erb'),
     order   => 01,
   }

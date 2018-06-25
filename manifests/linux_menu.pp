@@ -746,38 +746,10 @@ which you are curenntly using.")
   notice($boot_iso_name)
   notice($rel_name)
 
-
-# Distro Specific Folders
-
-
-  if ! defined (File["${pxe2_path}/${distro}"]){
-    file { "${pxe2_path}/${distro}":
-      ensure  => directory,
-    }
-  }
-
-
-  if ! defined (File["${pxe2_path}/${distro}/menu"]){
-    file { "${pxe2_path}/${distro}/menu":
-      ensure  => directory,
-    }
-  }
-
-  if ! defined (File["${pxe2_path}/${distro}/graphics"]){
-    file { "${pxe2_path}/${distro}/graphics":
-      ensure  => directory,
-    }
-  }
-
-  if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]){
-    file { "${pxe2_path}/${distro}/${p_arch}":
-      ensure  => directory,
-    }
-  }
-
 #################################################
 # Begin Creating Distro Specific HTTP Folder Tree 
 #################################################
+
   if ! defined (File["${pxe2_path}/${distro}"]) {
     file { "${pxe2_path}/${distro}":
       ensure  => directory,
@@ -786,11 +758,26 @@ which you are curenntly using.")
     notice(File["${pxe2_path}/${distro}"])
   }
 
+  if ! defined (File["${pxe2_path}/${distro}/menu"]){
+    file { "${pxe2_path}/${distro}/menu":
+      ensure  => directory,
+    }
+    notice(File["${pxe2_path}/${distro}/menu"])
+  }
+
+  if ! defined (File["${pxe2_path}/${distro}/graphics"]){
+    file { "${pxe2_path}/${distro}/graphics":
+      ensure  => directory,
+    }
+    notice(File["${pxe2_path}/${distro}/graphics"])
+  }
+
   if ! defined (File["${pxe2_path}/${distro}/${autofile}"]) {
     file { "${pxe2_path}/${distro}/${autofile}":
       ensure  => directory,
       require => File[ "${pxe2_path}/${distro}" ],
     }
+    notice(File["${pxe2_path}/${distro}/${autofile}"])
   }
 
   if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]) {
@@ -807,12 +794,12 @@ which you are curenntly using.")
     path    => "${pxe2_path}/${distro}/${autofile}/${name}.${autofile}",
     content => template("pxe2_ipxe_menus/unattended_installation/${autofile}.erb"),
     require => File[ "${pxe2_path}/${distro}/${autofile}" ],
-  }
+  } notice(File["${pxe2_path}/${distro}/${autofile}/${name}.${autofile}"])
 
   # PXEMENU ( linux_menu/linux_menu.cfg/default ) 
   if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
     concat::fragment { "${distro}.default_menu_entry":
-      target  => "${pxe2_path}/linux_menu/linux_menu.cfg/default",
+      target  => "${pxe2_path}/ipxe/menu.ipxe",
       content => template('pxe2_ipxe_menus/ipxe/01.header.os_menu.ipxe.erb'),
       order   => 02,
     }
