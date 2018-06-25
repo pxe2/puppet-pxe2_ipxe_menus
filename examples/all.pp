@@ -217,10 +217,68 @@ class{'pxe2_ipxe_menus': }
   pxe2_ipxe_menus::linux_menu{'scientificlinux-7.3-x86_64':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-7.4-x86_64':}
   # Oracle Linux
+  # i386
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.4-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.5-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.6-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.7-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.8-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.0-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.1-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.2-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.3-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.4-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.5-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.6-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.7-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.8-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.9-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.10-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.11-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.0-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.1-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.2-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.3-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.4-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.5-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.6-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.7-i386':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.8-i386':}
   pxe2_ipxe_menus::linux_menu{'oraclelinux-6.9-i386':}
+
+  # Oracle Linux
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.5-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.6-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.7-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-4.8-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.0-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.1-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.2-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.3-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.5-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.6-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.7-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.8-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.9-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.10-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-5.11-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.0-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.1-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.2-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.3-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.5-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.6-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.7-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-6.8-x86_64':}
   pxe2_ipxe_menus::linux_menu{'oraclelinux-6.9-x86_64':}
-#  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.3-x86_64':}
-#  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.0-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.1-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.2-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.3-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'oraclelinux-7.4-x86_64':}
   pxe2_ipxe_menus::linux_menu{'oraclelinux-7.5-x86_64':}
   # Debian
   pxe2_ipxe_menus::linux_menu{'debian-5-i386':}
