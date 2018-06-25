@@ -25,11 +25,6 @@ class pxe2_ipxe_menus::files (
     "${pxe2_path}/ipxe",
     "${pxe2_path}/menu",
     "${pxe2_path}/bin",
-    "${pxe2_path}/usb",
-    "${pxe2_path}/kickstart",
-    "${pxe2_path}/preseed",
-    "${pxe2_path}/packer",
-    "${pxe2_path}/unattend.xml",
   ]:
     ensure  => directory,
     mode    => '0777',
@@ -77,10 +72,8 @@ class pxe2_ipxe_menus::files (
   file {"${pxe2_path}/index.html":
     ensure  => file,
     mode    => '0777',
-    content => ' \
-#!ipxe
-
-# This is the entrypoint to load the pxe.to iPXE menu.P
+    content => '#!ipxe
+# This is the entrypoint to load the pxe.to iPXE menu.
 
 set conn_type https
 chain --autofree https://pxe.to/menu.ipxe || echo HTTPS Failure! attempting HTTP...
@@ -91,8 +84,7 @@ chain --autofree http://pxe.to/menu.ipxe || echo HTTPS Failure! attempting LOCAL
   file {"${pxe2_path}/ipxe.cfg":
     ensure  => file,
     mode    => '0777',
-    content => ' \
-#!ipxe
+    content => '#!ipxe
 
 :global_vars
 # set site name
@@ -131,6 +123,16 @@ exit
     target  => "${pxe2_path}/ipxe/menu.ipxe",
     content => template('pxe2_ipxe_menus/ipxe/01.header.ipxe.erb'),
     order   => 01,
+  }
+  concat::fragment{'install_menu_header':
+    target  => "${pxe2_path}/ipxe/menu.ipxe",
+    content => template('pxe2_ipxe_menus/ipxe/01.header.os_menu.ipxe.erb'),
+    order   => 02,
+  }
+  concat::fragment{'default_footer':
+    target  => "${pxe2_path}/ipxe/menu.ipxe",
+    content => template('pxe2_ipxe_menus/ipxe/04.body.adv_opts_menu.ipxe.erb'),
+    order   => 99,
   }
 
 #  concat::fragment{'default_localboot':

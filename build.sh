@@ -4,7 +4,7 @@ set -ex
 # docker hub username
 USERNAME=pxe2
 # image name
-IMAGE=puppet-pxe2_ipxe_menus
+IMAGE=ipxe-menu-builder
 VERSION=`cat VERSION`
 export USERNAME
 export IMAGE

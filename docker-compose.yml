@@ -1,12 +1,10 @@
 version: '3'
 services:
-  pxe2-ipxe-menus:
+  ipxe-menu-builder:
     image: "${USERNAME}/${IMAGE}:${VERSION}"
-    container_name: pxe2-ipxe-menus
+    container_name: ipxe-menu-builder
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - "./pxe2:/pxe2"
-volumes:
-  pxe2:
+      - ./pxe2:/pxe2

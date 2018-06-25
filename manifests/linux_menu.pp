@@ -12,7 +12,7 @@ define pxe2_ipxe_menus::linux_menu(
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
   $pxe_menu_allow_user_arguments = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
-  $pxe_menu_default_graphics     = $pxe2_ipxe_menus::pxe_menu_default_graphics,
+#  $pxe_menu_default_graphics     = $pxe2_ipxe_menus::pxe_menu_default_graphics,
   $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
   $jenkins_swarm_version_to_use  = $pxe2_ipxe_menus::jenkins_swarm_version_to_use,
   $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,
@@ -499,10 +499,10 @@ define pxe2_ipxe_menus::linux_menu(
     $_dot_bootsplash      = '.png'
     $mirror_host     = 'mirrors.kernel.org'
     $mirror_path     = $distro
-    $url             = "http://archive.ubuntu.com/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/${distro}-installer/${p_arch}"
+    $url             = "http://archive.ubuntu.com/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/debian-installer/${p_arch}"
     $inst_repo       = "http://archive.ubuntu.com/${distro}/dists/${rel_name}"
     $update_repo     = "http://archive.ubuntu.com/${distro}/dists/${rel_name}"
-    $splashurl       = "http://archive.ubuntu.com/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/${distro}-installer/${p_arch}/boot-screens/splash${_dot_bootsplash}"
+    $splashurl       = "http://archive.ubuntu.com/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/debian-installer/${p_arch}/boot-screens/splash${_dot_bootsplash}"
     $boot_iso_url    = 'No mini.iso or boot.iso to download'
     $boot_iso_name   = 'Not Required'
     $mini_iso_name   = 'mini.iso'
@@ -830,35 +830,54 @@ which you are curenntly using.")
     require => File[ "${pxe2_path}/${distro}/${autofile}" ],
   } notice(File["${pxe2_path}/${distro}/${autofile}/${name}.${autofile}"])
 
-  # PXEMENU ( linux_menu/linux_menu.cfg/default ) 
+
+  # iPXE MENU ENTRY
+  #( pxe2/ipxe/menu.ipxe ) 
   if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
     concat::fragment { "${distro}.default_menu_entry":
       target  => "${pxe2_path}/ipxe/menu.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/01.header.os_menu.ipxe.erb'),
-      order   => 02,
+      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
+      order   => 30,
     }
   }
-  # Syslinux PXEMENU ( menu/distro.menu ) 
-  if ! defined (Concat["${pxe2_path}/menu/${distro}.ipxe"]) {
-    concat { "${pxe2_path}/menu/${distro}.ipxe":
+
+  # ${distro} iPXE MENU ( menu/distro.ipxe ) 
+  if ! defined (Concat["${pxe2_path}/ipxe/${distro}.ipxe"]) {
+    concat { "${pxe2_path}/ipxe/${distro}.ipxe":
     }
   }
   if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
     concat::fragment {"${distro}.submenu_header":
-      target  => "${pxe2_path}/menu/${distro}.ipxe",
+      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
     concat::fragment {"${distro}.${name}.menu_item":
-      target  => "${pxe2_path}/menu/${distro}.ipxe",
-#      content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
+      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
     }
   }
-  file { "${pxe2_path}/${distro}/menu/${name}.ipxe":
-#    content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
-    content => template("pxe2_ipxe_menus/ipxe/linux.ipxe.erb"),
+
+  
+  # ${name} iPXE MENU ( pxe2/${distro}/menu/name.ipxe ) 
+  if ! defined (Concat["${pxe2_path}/${distro}/menu/${name}.ipxe"]) {
+    concat { "${pxe2_path}/${distro}/menu/${name}.ipxe":
+    }
+  }
+  if ! defined (Concat::Fragment["${name}.ipxe.header"]) {
+    concat::fragment {"${name}.ipxe.header":
+      target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
+      content => template("pxe2_ipxe_menus/ipxe/01.header.ipxe.erb"),
+      order   => 01,
+    }
+  }
+  if ! defined (Concat::Fragment["${name}.ipxe.menu_item"]) {
+    concat::fragment {"${name}.ipxe.menu_item":
+      target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
+      content => template("pxe2_ipxe_menus/ipxe/linux.ipxe.erb"),
+      order   => 02,
+    }
   }
 }
