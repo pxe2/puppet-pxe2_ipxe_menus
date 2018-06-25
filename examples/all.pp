@@ -164,9 +164,52 @@ class{'pxe2_ipxe_menus': }
   pxe2_ipxe_menus::linux_menu{'coreos-beta-amd64':}
   pxe2_ipxe_menus::linux_menu{'coreos-alpha-amd64':}
   # Scientific
+  # i386
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.0-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.1-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.2-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.3-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.4-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.5-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.6-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.7-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.8-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.9-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.10-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.11-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.0-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.1-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.2-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.3-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.4-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.5-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.6-i386':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.7-i386':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-6.8-i386':}
-  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.8-x86_64':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-6.9-i386':}
+  # Scientific 
+  # x86_64
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.0-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.1-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.2-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.3-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.5-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.6-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.7-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.8-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.9-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.10-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-5.11-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.0-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.1-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.2-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.3-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.4-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.5-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.6-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.7-x86_64':}
+  pxe2_ipxe_menus::linux_menu{'scientificlinux-6.8-x86_64':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-6.9-x86_64':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-7.0-x86_64':}
   pxe2_ipxe_menus::linux_menu{'scientificlinux-7.1-x86_64':}
