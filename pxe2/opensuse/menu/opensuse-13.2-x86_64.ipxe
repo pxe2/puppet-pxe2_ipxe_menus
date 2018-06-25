@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE opensuse-13.2-x86_64 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url http://ftp5.gwdg.de/pub/opensuse/discontinued/distribution/13.2/repo/oss/boot/x86_64/loader
+kernel ${base-url}/linux
+initrd ${base-url}/initrd

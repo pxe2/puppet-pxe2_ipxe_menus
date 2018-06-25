@@ -2,6 +2,7 @@ FROM puppet/puppet-agent-alpine:latest
 LABEL maintainer="peter@pouliot.net"
 COPY Dockerfile /Dockerfile
 ADD VERSION .
+VOLUME ./pxe2 /pxe2
 RUN mkdir -p /etc/puppetlabs/code/modules/pxe2_ipxe_menus
 COPY . /etc/puppetlabs/code/modules/pxe2_ipxe_menus
 
@@ -21,8 +22,10 @@ RUN \
     && ls data/nodes && echo $HOSTNAME \
     && puppet module list \
     && puppet module list --tree
-RUN \
+#RUN \
+ENTRYPOINT \
 #   puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/init.pp
     puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/all.pp
 
-ENTRYPOINT /bin/ash
+#ENTRYPOINT /bin/ash
+WORKDIR /pxe2

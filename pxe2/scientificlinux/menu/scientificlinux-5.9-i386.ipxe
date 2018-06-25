@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE scientificlinux-5.9-i386 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url /images/pxeboot
+kernel ${base-url}/vmlinuz
+initrd ${base-url}/initrd.img

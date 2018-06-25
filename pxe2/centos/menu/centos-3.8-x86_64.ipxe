@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE centos-3.8-x86_64 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url http://vault.centos.org/3.8/os/x86_64/images/pxeboot
+kernel ${base-url}/vmlinuz
+initrd ${base-url}/initrd.img

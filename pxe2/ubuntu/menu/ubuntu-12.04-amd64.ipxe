@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE ubuntu-12.04-amd64 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url http://archive.ubuntu.com/ubuntu/dists/precise/main/installer-amd64/current/images/netboot/debian-installer/amd64
+kernel ${base-url}/linux
+initrd ${base-url}/initrd.gz

@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE fedora-12-i386 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/12/Fedora/i386/os/images/pxeboot
+kernel ${base-url}/vmlinuz
+initrd ${base-url}/initrd.img

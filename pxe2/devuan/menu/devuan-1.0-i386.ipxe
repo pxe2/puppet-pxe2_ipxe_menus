@@ -1,0 +1,12 @@
+#!ipxe
+
+# ******************** iPXE Default Header *************************
+# Automatically enerated from pxe2_ipxe_menus by 
+# file: pxe2_ipxe_menus/templates/ipxe/header.ipxe.erb
+
+# ******************** iPXE devuan-1.0-i386 Linux Boot  *************************
+# Automatically enerated from pxe2_ipxe_menus by
+# file: pxe2_ipxe_menus/templates/ipxe/linux.ipxe.erb
+set base-url http://pkgmaster.devuan.org/devuan/dists/jessie/main/installer-i386/current/images/netboot/devuan-installer/i386
+kernel ${base-url}/linux
+initrd ${base-url}/initrd.gz
