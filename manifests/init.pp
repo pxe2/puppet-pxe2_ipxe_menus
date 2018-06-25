@@ -5,6 +5,7 @@
 # @example
 #   include pxe2_ipxe_menus
 class pxe2_ipxe_menus (
+  String $pxe2_path                                  = '/pxe2',
   Optional[String] $preferred_nameserver             = undef,
   Optional[Boolean] $dban_enable                     = undef,
   Optional[String] $dban_version                     = '2.3.0',
@@ -22,17 +23,10 @@ class pxe2_ipxe_menus (
 
 ) inherits pxe2_ipxe_menus::params {
 
-  case $::kernel {
-    assert_type(Pattern[/(^Linux|Windows)$/], $::kernel) |$a, $b| {
-      fail translate(('This Module only works on Linux and Windows like systems.'))
-    }
-  }
+  class{'::pxe2_ipxe_menus::files': }
+->class{'::pxe2_ipxe_menus::configure': }
 
-
-  class{'::pxe2_ipxe_menus::install': } ->
-  class{'::pxe2_ipxe_menus::configure': }     
-
-  contain pxe2_ipxe_menus::install
+  contain pxe2_ipxe_menus::files
   contain pxe2_ipxe_menus::configure
 
 }

@@ -7,7 +7,7 @@
 
 define pxe2_ipxe_menus::linux_menu(
   # The following pxe menu variables are required for the templates used in this class
-  $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path
+  $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path,
   $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
@@ -111,17 +111,17 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $url             = "${centos_url}/os/${p_arch}/images/pxeboot"
     $inst_repo       = "${centos_url}/os/${p_arch}/"
     $update_repo     = "${centos_url}/updates/${p_arch}/"
     $splashurl       = "${centos_url}/isolinux/splash${_dot_bootsplash}"
     $boot_iso_url    = "${centos_url}/os/${p_arch}/images/${boot_iso_name}"
-    $boot_iso_name   = "boot.iso"
-    $mini_iso_name   = "boot.iso"
+    $boot_iso_name   = 'boot.iso'
+    $mini_iso_name   = 'boot.iso'
   }
-      
+
   if ( $distro == 'fedora') {
     case $release {
       '2','3','4','5','6':{
@@ -183,14 +183,14 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $url             = "${fedora_url}/${release}/${fedora_flavor}${p_arch}/os/images/pxeboot"
     $inst_repo       = "${fedora_url}/${release}/${fedora_flavor}${p_arch}/os"
     $update_repo     = "${fedora_url}/${release}/${fedora_flavor}${p_arch}/os"
     $boot_iso_url    = "${fedora_url}/${release}/${fedora_flavor}${p_arch}/os/images/boot.iso"
-    $boot_iso_name   = "boot.iso"
-    $mini_iso_name   = "boot.iso"
+    $boot_iso_name   = 'boot.iso'
+    $mini_iso_name   = 'boot.iso'
     $splashurl       = "${fedora_url}/isolinux/splash${_dot_bootsplash}"
   }
   if ( $distro == 'scientificlinux'){
@@ -229,15 +229,15 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $url             = "${scientificlinux_url}/images/pxeboot"
     $inst_repo       = "http://ftp.scientificlinux.org/linux/scientific/${release}/${p_arch}/os"
     $update_repo     = "http://ftp.scientificlinux.org/linux/scientific/${release}/${p_arch}/updates/security"
     $splashurl       = "${scientificlinux_url}/isolinux/splash${_dot_bootsplash}"
     $boot_iso_url    = "${scientificlinux_url}/images/${boot_iso_name}"
-    $boot_iso_name   = "boot.iso"
-    $mini_iso_name   = "boot.iso"
+    $boot_iso_name   = 'boot.iso'
+    $mini_iso_name   = 'boot.iso'
   }
 
   if ( $distro == 'opensuse') {
@@ -264,9 +264,9 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = undef
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}.gz"
-    $_dot_bootsplash      = '.jpg'
+    $_dot_bootsplash = '.jpg'
     $url             = "${opensuse_url}/${release}/repo/oss/boot/${p_arch}/loader"
     $inst_repo       = "${opensuse_url}/${release}/repo/oss"
     $update_repo     = "${opensuse_url}/${release}/repo/non-oss/suse"
@@ -286,7 +286,7 @@ define pxe2_ipxe_menus::linux_menu(
   if ($distro == /(centos|fedora|oraclelinux)/) and ( $release >= '7.0' ) and ( $p_arch == 'i386'){
     fail("${distro} ${release} does not provide support for processor architecture i386")
   }
-  
+
   # Begin tests for dealing with OracleLinux Repos
   if ( $distro == 'oraclelinux' ) {
     case $release {
@@ -295,7 +295,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name = "Enterprise-R${rel_major}-U${rel_minor}-${p_arch}-dvd.iso"
         $boot_iso_url    = "http://mirrors.kernel.org/oracle/EL${rel_major}/U${rel_minor}/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = undef
-        $_U                = 'U'
+        $_u                = 'U'
         $vnc_option        = 'vnc'
         $vnc_option_passwd = 'vncpasswd'
         $ks_option         = 'ks'
@@ -307,7 +307,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name = "Enterprise-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url    = "http://mirrors.kernel.org/oracle/EL${rel_major}/GA/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = undef
-        $_U                = 'U'
+        $_u                = 'U'
         $vnc_option        = 'vnc'
         $vnc_option_passwd = 'vncpasswd'
         $ks_option         = 'ks'
@@ -319,7 +319,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name = "Enterprise-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url    = "http://mirrors.kernel.org/oracle/EL${rel_major}/U${rel_minor}/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = undef
-        $_U                = 'U'
+        $_u                = 'U'
         $vnc_option        = 'vnc'
         $vnc_option_passwd = 'vncpasswd'
         $ks_option         = 'ks'
@@ -331,7 +331,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url    = "http://mirrors.kernel.org/oracle/OL${rel_major}/GA/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = undef
-        $_U                = 'U'
+        $_u                = 'U'
         $vnc_option        = 'vnc'
         $vnc_option_passwd = 'vncpasswd'
         $ks_option         = 'ks'
@@ -343,7 +343,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name     = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url      = "http://mirrors.kernel.org/oracle/OL${rel_major}/U${rel_minor}/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = "${p_arch}-boot.iso"
-        $_U                = 'U'
+        $_u                = 'U'
         $vnc_option        = 'vnc'
         $vnc_option_passwd = 'vncpasswd'
         $ks_option         = 'ks'
@@ -355,7 +355,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url    = "http://mirrors.kernel.org/oracle/OL${rel_major}/GA/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = "${p_arch}-boot.iso"
-        $_U                = 'u'
+        $_u                = 'u'
         $vnc_option        = 'inst.vnc'
         $vnc_option_passwd = 'inst.vncpasswd'
         $ks_option         = 'inst.ks'
@@ -367,7 +367,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name     = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url      = "http://mirrors.kernel.org/oracle/OL${rel_major}/u${rel_minor}/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = undef
-        $_U                = 'u'
+        $_u                = 'u'
         $vnc_option        = 'inst.vnc'
         $vnc_option_passwd = 'inst.vncpasswd'
         $ks_option         = 'inst.ks'
@@ -379,7 +379,7 @@ define pxe2_ipxe_menus::linux_menu(
         $boot_iso_name     = "OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
         $boot_iso_url      = "http://mirrors.kernel.org/oracle/OL${rel_major}/u${rel_minor}/${p_arch}/${boot_iso_name}"
         $mini_iso_name     = "${p_arch}-boot.iso"
-        $_U                = 'u'
+        $_u                = 'u'
         $vnc_option        = 'inst.vnc'
         $vnc_option_passwd = 'inst.vncpasswd'
         $ks_option         = 'inst.ks'
@@ -389,13 +389,13 @@ define pxe2_ipxe_menus::linux_menu(
         warning("${name} isn't a oraclelinux release!")
       }
     }
-    notice($_U)
+    notice($_u)
     $autofile        = 'kickstart'
     $linux_installer = 'anaconda'
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash = '.png'
     $url             = 'ISO Required instead of URL'
@@ -412,7 +412,7 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash = '.jpg'
     $url             = 'ISO Required instead of URL'
@@ -430,7 +430,7 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = undef
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}.gz"
     $_dot_bootsplash = '.jpg'
     $url             = 'ISO Required instead of URL'
@@ -446,7 +446,7 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = undef
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}.gz"
     $_dot_bootsplash = '.jpg'
     $url             = 'ISO Required instead of URL'
@@ -494,11 +494,11 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = '.gz'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash      = '.png'
-    $mirror_host     = "mirrors.kernel.org"
-    $mirror_path     = "${distro}"
+    $mirror_host     = 'mirrors.kernel.org'
+    $mirror_path     = $distro
     $url             = "http://archive.ubuntu.com/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/${distro}-installer/${p_arch}"
     $inst_repo       = "http://archive.ubuntu.com/${distro}/dists/${rel_name}"
     $update_repo     = "http://archive.ubuntu.com/${distro}/dists/${rel_name}"
@@ -532,13 +532,13 @@ define pxe2_ipxe_menus::linux_menu(
       '5','6':{
         $debian_url = 'http://archive.debian.org'
         $mirror_host = 'archive.debian.org'
-        $mirror_path = "${distro}"
+        $mirror_path = $distro
 
       }
       '7','8','9','10':{
         $debian_url = 'http://http.us.debian.org'
         $mirror_host = 'http.us.debian.org'
-        $mirror_path = "${distro}"
+        $mirror_path = $distro
       }
       default:{
         warning("${name} isn't a debian release!")
@@ -549,7 +549,7 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = '.gz'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash = '.png'
     $url             = "${debian_url}/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/${distro}-installer/${p_arch}"
@@ -566,11 +566,11 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'linux'
     $initrd          = '.gz'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash = '.png'
-    $mirror_host      = "http.kali.org"
-    $mirror_path     = "${distro}"
+    $mirror_host      = 'http.kali.org'
+    $mirror_path     = $distro
     $url             = "http://http.kali.org/kali/dists/kali-rolling/main/installer-${p_arch}/current/images/netboot/debian-installer/${p_arch}"
     $inst_repo       = 'http://http.kali.org/kali/dists/kali-rolling'
     $update_repo     = 'http://http.kali.org/kali/dists/kali-rolling'
@@ -585,7 +585,11 @@ define pxe2_ipxe_menus::linux_menu(
         warning("Archlinux ${release} for ${p_arch} will be activated")
       }
       default:{
-        fail("${name} is not a valid Archlinux release! Try using 2016.12.01,2017.01.01,2017.02.01, or latest for your release vs. ${release} which you are curenntly using.")
+        fail(" \
+${name} is not a valid Archlinux release! \
+Try using 2016.12.01,2017.01.01,2017.02.01, \
+or latest for your release vs. ${release} \
+which you are curenntly using.")
       }
     }
     $autofile        = 'archiso'
@@ -593,82 +597,82 @@ define pxe2_ipxe_menus::linux_menu(
     $pxekernel       = 'vmlinuz'
     $initrd          = '.img'
     $src_initrd      = "initrd${initrd}"
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}${initrd}"
     $_dot_bootsplash = '.png'
     $url             = "http://mirrors.kernel.org/archlinux/iso/${release}/arch/boot/${p_arch}"
     $inst_repo       = "http://mirrors.kernel.org/archlinux/iso/${release}/arch/boot/initramfs_${p_arch}.${initrd}"
-    $update_repo     = "http://mirrors.kernel.org/archlinux/core/os/${p_arch}/$rel_name/arch/${p_arch}/airootfs.sfs"
-    $splashurl       = "http://mirrors.kernel.org/archlinux/iso/$rel_name/arch/${p_arch}/airootfs.sfs"
-    $boot_iso_url    = "http://mirrors.kernel.org/archlinux/iso/$rel_name/archlinux-${rel_name}-dual.iso"
+    $update_repo     = "http://mirrors.kernel.org/archlinux/core/os/${p_arch}/${rel_name}/arch/${p_arch}/airootfs.sfs"
+    $splashurl       = "http://mirrors.kernel.org/archlinux/iso/${rel_name}/arch/${p_arch}/airootfs.sfs"
+    $boot_iso_url    = "http://mirrors.kernel.org/archlinux/iso/${rel_name}/archlinux-${rel_name}-dual.iso"
     $boot_iso_name   = 'Not Required'
     $mini_iso_name   = 'Not Required'
   }
   if ( $distro == 'coreos' ) {
     case $release {
-      'stable':{
+      'stable': {
         warning("coreos ${release} for ${p_arch} will be activated")
         $coreos_version = '1520.8.0'
       }
-      'beta':{
+      'beta': {
         warning("coreos ${release} for ${p_arch} will be activated")
         $coreos_version = '1576.2.0'
       }
-      'alpha':{
+      'alpha': {
         warning("coreos ${release} for ${p_arch} will be activated")
         $coreos_version = '1590.0.0'
       }
-      default:{
+      default: {
         fail("${name} is not a valid coreos release! Valid release are stable, beta  or alpha.")
       }
     }
     case $p_arch {
-      'amd64','arm64':{
+      'amd64', 'arm64': {
         warning("coreos ${release} for ${p_arch} will be activated")
       }
-      default:{
+      default: {
         fail("${p_arch} is not a valid processor architecture for coreos, valid processor arch are amd64 and arm64.")
       }
     }
-    $coreos_channel  = $release
-    $autofile        = 'cloud-config.yml'
+    $coreos_channel = $release
+    $autofile = 'cloud-config.yml'
     $linux_installer = 'coreos-install'
-    $pxekernel      = 'coreos_production_pxe.vmlinuz'
-    $initrd          = 'cpio.gz'
-    $src_initrd      = "coreos_production_pxe_image.${initrd}"
-    $target_kernel   = "${release}_production.vmlinuz"
-    $target_initrd   = "${release}_production.${initrd}"
-    $url             = "https://${release}.release.core-os.net/${p_arch}-usr/current"
-    $inst_repo       = "https://${release}.release.core-os.net/${p_arch}-usr/current"
-    $boot_iso_url    = "https://${release}.release.core-os.net/${p_arch}-usr/current/coreos_production_iso_image.iso"
-    $boot_iso_name   = 'Not Required'
-    $mini_iso_name   = 'Not Required'
-    
+    $pxekernel = 'coreos_production_pxe.vmlinuz'
+    $initrd = 'cpio.gz'
+    $src_initrd = "coreos_production_pxe_image.${initrd}"
+    $target_kernel = "${release}_production.vmlinuz"
+    $target_initrd = "${release}_production.${initrd}"
+    $url = "https://${release}.release.core-os.net/${p_arch}-usr/current"
+    $inst_repo = "https://${release}.release.core-os.net/${p_arch}-usr/current"
+    $boot_iso_url = "https://${release}.release.core-os.net/${p_arch}-usr/current/coreos_production_iso_image.iso"
+    $boot_iso_name = 'Not Required'
+    $mini_iso_name = 'Not Required'
+
     # This adds scripts to deploy to the system after booting into coreos 
     # when finished it should reboot.
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.pxe_installer.sh":
+    file { "/${pxe2_path}/${distro}/${autofile}/${name}.pxe_installer.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
     }
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.running_instance.sh":
+    file { "/${pxe2_path}/${distro}/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
     }
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
+    file { "/${pxe2_path}/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
     }
-
+  }
   if ( $distro == 'rancheros' ) {
     case $release {
       /([0-9]).([0-9]).([0-9])/:{
         warning("rancheros ${release} for ${p_arch} will be activated")
         $rancheros_release = "v${release}"
 #        $src_initrd      = "initrd-${rancheros_release}"
-        $src_initrd      = "initrd"
+        $src_initrd      = 'initrd'
       }
       'latest':{
         warning("rancheros ${release} for ${p_arch} will be activated")
@@ -691,12 +695,12 @@ define pxe2_ipxe_menus::linux_menu(
     $linux_installer = 'ros'
     $pxekernel       = 'vmlinuz'
     $initrd          = 'initrd'
-    $target_kernel   = "${rel_number}"
+    $target_kernel   = $rel_number
     $target_initrd   = "${rel_number}.img"
-#    $url             = "https://releases.rancher.com/os/${rancheros_release}"
-     $url            = "https://github.com/rancher/os/releases/download/${rancheros_release}"
-     $inst_repo      = "https://github.com/rancher/os/releases/download/${rancheros_release}"
-#    $inst_repo       = "https://releases.rancher.com/os/${rancheros_release}"
+#   $url             = "https://releases.rancher.com/os/${rancheros_release}"
+    $url             = "https://github.com/rancher/os/releases/download/${rancheros_release}"
+    $inst_repo       = "https://github.com/rancher/os/releases/download/${rancheros_release}"
+#   $inst_repo       = "https://releases.rancher.com/os/${rancheros_release}"
     $boot_iso_url    = "https://releases.rancher.com/os/${rancheros_release}/${boot_iso_name}"
     $boot_iso_name   = 'rancheros.iso'
     $mini_iso_name   = 'Not Required'
@@ -746,8 +750,8 @@ define pxe2_ipxe_menus::linux_menu(
 # Distro Specific Folders
 
 
-  if ! defined (File["${pxe2_path}/$distro"]){
-    file { "${pxe2_path}/$distro":
+  if ! defined (File["${pxe2_path}/${distro}"]){
+    file { "${pxe2_path}/${distro}":
       ensure  => directory,
     }
   }
@@ -760,7 +764,7 @@ define pxe2_ipxe_menus::linux_menu(
   }
 
   if ! defined (File["${pxe2_path}/${distro}/graphics"]){
-    tftp::file { "${pxe2_path}/${distro}/graphics":
+    file { "${pxe2_path}/${distro}/graphics":
       ensure  => directory,
     }
   }
@@ -774,12 +778,10 @@ define pxe2_ipxe_menus::linux_menu(
 #################################################
 # Begin Creating Distro Specific HTTP Folder Tree 
 #################################################
-  
-  
   if ! defined (File["${pxe2_path}/${distro}"]) {
     file { "${pxe2_path}/${distro}":
       ensure  => directory,
-      require => File[ '${pxe2_path}' ],
+      require => File[ $pxe2_path ],
     }
     notice(File["${pxe2_path}/${distro}"])
   }
@@ -807,36 +809,35 @@ define pxe2_ipxe_menus::linux_menu(
     require => File[ "${pxe2_path}/${distro}/${autofile}" ],
   }
 
-  # PXEMENU ( pxelinux/pxelinux.cfg/default ) 
+  # PXEMENU ( linux_menu/linux_menu.cfg/default ) 
   if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
     concat::fragment { "${distro}.default_menu_entry":
-      target  => '/${pxe2_path}/tftpboot/pxelinux/pxelinux.cfg/default',
-      content => template('pxe2_ipxe_menus/ipxe/default.erb'),
+      target  => "${pxe2_path}/linux_menu/linux_menu.cfg/default",
+      content => template('pxe2_ipxe_menus/ipxe/01.header.os_menu.ipxe.erb'),
       order   => 02,
     }
   }
-  
-  
   # Syslinux PXEMENU ( menu/distro.menu ) 
-  if ! defined (Concat["${pxe2_path}/tftpboot/menu/${distro}.menu"]) {
-    concat { "${pxe2_path}/tftpboot/menu/${distro}.menu":
+  if ! defined (Concat["${pxe2_path}/menu/${distro}.menu"]) {
+    concat { "${pxe2_path}/menu/${distro}.menu":
     }
   }
   if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
     concat::fragment {"${distro}.submenu_header":
-      target  => "${pxe2_path}/tftpboot/menu/${distro}.menu",
-      content => template('pxe2_ipxe_menus/ipxe/header2.erb'),
+      target  => "${pxe2_path}/menu/${distro}.menu",
+      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
     concat::fragment {"${distro}.${name}.menu_item":
-      target  => "${pxe2_path}/tftpboot/menu/${distro}.menu",
+      target  => "${pxe2_path}/menu/${distro}.menu",
 #      content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
-      content => template("pxe2_ipxe_menus/ipxe/default2.erb"),
+      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
     }
   }
   file { "${pxe2_path}/${distro}/menu/${name}.menu":
-    content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
+#    content => template("pxe2_ipxe_menus/ipxe/${linux_installer}.erb"),
+    content => template("pxe2_ipxe_menus/ipxe/linux.ipxe.erb"),
   }
 }

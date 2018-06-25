@@ -1,0 +1,15 @@
+@echo on
+
+REM Download and Install Chocolatey
+:inst_chocolatey
+del c:\inst-chocolatey.ps1
+powershell -NoProfile -ExecutionPolicy unrestricted -Command "while(-not [IO.File]::Exists('c:\inst-chocolatey.ps1')){((new-object net.webclient).DownloadFile('https://chocolatey.org/install.ps1','c:\inst-chocolatey.ps1'))}"
+powershell -NoProfile -ExecutionPolicy unrestricted -Command "c:\inst-chocolatey.ps1" || goto :inst_chocolatey
+
+REM Installing GIT, and Puppet
+call C:\ProgramData\chocolatey\choco.exe install -force git -y
+call C:\ProgramData\chocolatey\choco.exe install -force wget -y
+call C:\ProgramData\chocolatey\choco.exe install -force curl -y
+
+REM Add the Secondboot script
+reg.exe add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce /f /v "!postboot1" /t REG_SZ /d "cmd /c c:\secondboot.cmd"
