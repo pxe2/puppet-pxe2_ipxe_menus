@@ -831,12 +831,12 @@ which you are curenntly using.")
   } notice(File["${pxe2_path}/${distro}/${autofile}/${name}.${autofile}"])
 
 
-  # iPXE MENU ENTRY
+  # MENU.iPXE Menu Entry
   #( pxe2/ipxe/menu.ipxe ) 
-  if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
-    concat::fragment { "${distro}.default_menu_entry":
+  if ! defined (Concat::Fragment["menu.ipxe-${distro}.menu_entry"]) {
+    concat::fragment { "menu.ipxe-${distro}.menu_entry":
       target  => "${pxe2_path}/ipxe/menu.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.body.distro_menu.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/03.tools.menu.ipxe.erb'),
       order   => 30,
     }
   }
