@@ -841,6 +841,16 @@ which you are curenntly using.")
       order   => 30,
     }
   }
+  # BOOT.CFG Menu Entry
+  #( pxe2/src/boot.cfg ) 
+  if ! defined (Concat::Fragment["boot.cfg-${distro}.mirror_entry"]) {
+    concat::fragment { "boot.cfg-${distro}.mirror_entry":
+      target  => "${pxe2_path}/src/boot.cfg",
+      content => template('pxe2_ipxe_menus/02.mirrors.boot.cfg.erb'),
+      order   => 30,
+    }
+  }
+
 
   # ${distro} iPXE MENU ( menu/distro.ipxe ) 
   if ! defined (Concat["${pxe2_path}/ipxe/${distro}.ipxe"]) {

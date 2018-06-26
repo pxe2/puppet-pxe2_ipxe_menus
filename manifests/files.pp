@@ -178,5 +178,19 @@ chain --autofree http://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attemp
     content => template('pxe2_ipxe_menus/03.tools.menu.ipxe.erb'),
     order   => 99,
   }
+->concat {"${pxe2_path}/src/boot.cfg":
+    mode    => '0777',
+  }
+  concat::fragment{'boot.cfg-default_header':
+    target  => "${pxe2_path}/src/boot.cfg",
+    content => template('pxe2_ipxe_menus/01.header.boot.cfg.erb'),
+    order   => 01,
+  }
+  concat::fragment{'boot.cfg-default_footer':
+    target  => "${pxe2_path}/src/boot.cfg",
+    content => template('pxe2_ipxe_menus/03-footer.boot.cfg.erb'),
+    order   => 99,
+  }
+
 
 }
