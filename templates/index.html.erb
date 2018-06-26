@@ -1,7 +1,10 @@
 #!ipxe
+
 ####       boot.<%= @pxe2_hostname %> initial loader       ####
 #### see http://<%= @pxe2_hostname %> for more information ####
+
 set conn_type https
 chain --autofree https://<%= @pxe2_hostname %>/menu.ipxe || echo HTTPS Failure! attempting HTTP...
+
 set conn_type http
-chain --autofree http://<%= @pxe2_hostname %>/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
+cohain --autofree http://<%= @pxe2_hostname %>/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
