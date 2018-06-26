@@ -8,6 +8,7 @@
 define pxe2_ipxe_menus::linux_menu(
   # The following pxe menu variables are required for the templates used in this class
   String $pxe2_path                               = $pxe2_ipxe_menus::pxe2_path,
+  String $pxe2_hostname                           = $pxe2_ipxe_menus::pxe2_hostname,
   String $default_pxeboot_option                  = $pxe2_ipxe_menus::default_pxeboot_option,
   String $pxe_menu_timeout                        = $pxe2_ipxe_menus::pxe_menu_timeout,
   String $pxe_menu_total_timeout                  = $pxe2_ipxe_menus::pxe_menu_total_timeout,
@@ -835,7 +836,7 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["${distro}.default_menu_entry"]) {
     concat::fragment { "${distro}.default_menu_entry":
       target  => "${pxe2_path}/ipxe/menu.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/ipxe/02.body.distro_menu.ipxe.erb'),
       order   => 30,
     }
   }
@@ -848,14 +849,14 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
     concat::fragment {"${distro}.submenu_header":
       target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
     concat::fragment {"${distro}.${name}.menu_item":
       target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
     }
   }
 

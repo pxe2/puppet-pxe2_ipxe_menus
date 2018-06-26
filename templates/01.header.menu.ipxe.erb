@@ -1,0 +1,42 @@
+#!ipxe
+
+:start
+chain --autofree boot.cfg ||
+iseq ${cls} serial && goto ignore_cls ||
+set cls:hex 1b:5b:4a  # ANSI clear screen sequence - "^[[J"
+set cls ${cls:string}
+:ignore_cls
+
+:version_check
+set latest_version 1.04
+echo ${cls}
+iseq ${version} ${latest_version} && goto version_up2date ||
+echo
+echo Updated version of netboot.xyz is available:
+echo
+echo Running version.....${version}
+echo Updated version.....${latest_version}
+echo
+echo Please download the latest version from netboot.xyz.
+echo
+echo Attempting to chain to latest version...
+chain --autofree http://${boot_domain}/ipxe/${ipxe_disk} ||
+:version_up2date
+
+isset ${arch} && goto skip_arch_detect ||
+cpuid --ext 29 && set arch x86_64 || set arch i386
+iseq ${buildarch} arm64 && set arch arm64 ||
+:skip_arch_detect
+isset ${menu} && goto ${menu} ||
+
+isset ${ip} || dhcp || echo DHCP failed
+
+:main_menu
+clear menu
+set space:hex 20:20
+set space ${space:string}
+iseq ${arch} x86_64 && set arch_a amd64 || set arch_a ${arch}
+menu ${site_name}
+item --gap Default:
+item local ${space} Boot from local hdd
+item --gap Distributions:
