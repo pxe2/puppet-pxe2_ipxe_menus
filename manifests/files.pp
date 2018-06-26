@@ -103,7 +103,7 @@ class pxe2_ipxe_menus::files(
 ',
   }
 ->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
-    source  => "https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
+    source  => "http://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
     target  => '/tmp',
     creates => [
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}",
