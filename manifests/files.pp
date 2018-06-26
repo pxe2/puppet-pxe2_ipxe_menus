@@ -188,7 +188,7 @@ chain --autofree http://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attemp
   }
   concat::fragment{'boot.cfg-default_footer':
     target  => "${pxe2_path}/src/boot.cfg",
-    content => template('pxe2_ipxe_menus/03-footer.boot.cfg.erb'),
+    content => template('pxe2_ipxe_menus/03.footer.boot.cfg.erb'),
     order   => 99,
   }
 
