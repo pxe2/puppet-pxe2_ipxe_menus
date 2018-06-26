@@ -104,7 +104,7 @@ class pxe2_ipxe_menus::files(
   }
 ->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
     source  => "http://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
-    target  => '/tmp',
+    target  => "${pxe2_path}/syslinux"{,
     creates => [
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}",
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios",
@@ -115,6 +115,7 @@ class pxe2_ipxe_menus::files(
 ->file{"${pxe2_path}/ipxe/memdisk":
     ensure => file,
     source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
+    require => Staging::Deploy["${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz"],
   }
 
   # *******************************************************

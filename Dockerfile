@@ -12,8 +12,7 @@ COPY files/hiera/hiera.yaml /etc/puppetlabs/code/environments/production/hiera.y
 COPY files/hiera/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 RUN \
     apk update \
-    && apk add --no-cache --virtual ntp git gawk sed grep \
-    && ntpd -d -q -n -p 0.pool.ntp.org \
+    && apk add --no-cache --virtual git gawk sed grep wget \
     && gem install r10k \
     && cd /etc/puppetlabs/code/environments/production/ \
     && r10k puppetfile install --verbose DEBUG2 \
@@ -22,10 +21,6 @@ RUN \
     && ls data/nodes && echo $HOSTNAME \
     && puppet module list \
     && puppet module list --tree
-#RUN \
 ENTRYPOINT \
-#   puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/init.pp
     puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/all.pp
-
-#ENTRYPOINT /bin/ash
 WORKDIR /pxe2
