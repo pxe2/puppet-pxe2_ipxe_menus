@@ -134,7 +134,7 @@ class pxe2_ipxe_menus::files(
   # *************** iPXE Boot Menu Entrypoint ******************
   # ************************************************************
 
-->file {"${pxe2_path}/index.html":
+->file {"${pxe2_path}/ipxe/index.html":
     ensure  => file,
     mode    => '0777',
     content => "#!ipxe
