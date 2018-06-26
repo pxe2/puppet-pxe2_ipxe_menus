@@ -102,7 +102,7 @@ class pxe2_ipxe_menus::files(
 #define	USB_EFI
 ',
   }
-->archive{"${pxe2_path}/syslinux":
+->archive{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
     source  => "https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
     target  => '/tmp',
     extract => true,
