@@ -107,16 +107,15 @@ class pxe2_ipxe_menus::files(
     target  => '/tmp',
     extract => true,
     creates => [
-      "${pxe2_path}/syslinux/syslinux-${version}",
-      "${pxe2_path}/syslinux/syslinux-${version}/bios",
-      "${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk",
-      "${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     ],
-  } notice("${pxe2_path}/syslinux/syslinux-${version}")
+  } notice("${pxe2_path}/syslinux/syslinux-${syslinux_version}")
 ->archive{"${pxe2_path}/ipxe/memdisk":
-    source => "${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk",
-  } notice("${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk")
-    
+    source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
+  } notice("${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk")
 
   # *******************************************************
   # *************** Post Install Scripts ******************
