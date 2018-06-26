@@ -24,6 +24,7 @@ class pxe2_ipxe_menus::files(
   file{[
     $pxe2_path,
     "${pxe2_path}/syslinux",
+    "${pxe2_path}/src",
     "${pxe2_path}/ipxe",
     "${pxe2_path}/ipxe/disks",
     "${pxe2_path}/ipxe/local",
@@ -112,8 +113,9 @@ class pxe2_ipxe_menus::files(
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     ],
   }
-->file{"${pxe2_path}/ipxe/memdisk":
+->file{"${pxe2_path}/src/memdisk":
     ensure => file,
+    mode    => '0777',
     source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     require => Staging::Deploy["${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz"],
   }
@@ -151,7 +153,7 @@ class pxe2_ipxe_menus::files(
   # *************** iPXE Boot Menu Entrypoint ******************
   # ************************************************************
 
-->file {"${pxe2_path}/ipxe/index.html":
+->file {"${pxe2_path}/src/index.html":
     ensure  => file,
     mode    => '0777',
     content => "#!ipxe
@@ -163,16 +165,16 @@ set conn_type http
 chain --autofree http://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
     ",
   }
-->concat {"${pxe2_path}/ipxe/menu.ipxe":
+->concat {"${pxe2_path}/src/menu.ipxe":
     mode    => '0777',
   }
   concat::fragment{'menu.ipxe-default_header':
-    target  => "${pxe2_path}/ipxe/menu.ipxe",
+    target  => "${pxe2_path}/src/menu.ipxe",
     content => template('pxe2_ipxe_menus/01.header.menu.ipxe.erb'),
     order   => 01,
   }
   concat::fragment{'menu.ipxe-default_footer':
-    target  => "${pxe2_path}/ipxe/menu.ipxe",
+    target  => "${pxe2_path}/src/menu.ipxe",
     content => template('pxe2_ipxe_menus/03.tools.menu.ipxe.erb'),
     order   => 99,
   }
