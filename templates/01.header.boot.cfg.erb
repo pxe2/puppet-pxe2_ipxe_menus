@@ -1,0 +1,28 @@
+#!ipxe
+
+:global_vars
+# set site name
+set site_name <%= @pxe2_hostname %>
+
+# set boot domain
+set boot_domain boot.<%= @pxe2_hostname %>
+
+# set location of memdisk
+set memdisk http://${boot_domain}/memdisk
+
+# signature check enabled?
+set sigs_enabled true
+
+# image signatures check enabled?
+set img_sigs_enabled true
+
+# set location of signatures for sources
+set sigs http://${boot_domain}/sigs/
+
+# set location of latest iPXE
+set ipxe_disk <%= @pxe2_hostname %>-undionly.kpxe
+
+##################
+# official mirrors
+##################
+:mirrors

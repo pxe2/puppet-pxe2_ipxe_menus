@@ -4,33 +4,121 @@
 #
 # @example
 #   include pxe2_ipxe_menus::files
-class pxe2_ipxe_menus::files (
-  $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path,
+class pxe2_ipxe_menus::files(
+  String $pxe2_path              = $pxe2_ipxe_menus::pxe2_path,
+  String $pxe2_hostname          = $pxe2_ipxe_menus::pxe2_hostname,
   $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
+  String $syslinux_version       = $pxe2_ipxe_menus::syslinux_version,
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
   $pxe_menu_allow_user_arguments = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
-  $pxe_menu_default_graphics     = $pxe2_ipxe_menus::pxe_menu_default_graphics,
   $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
   $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,
   $vnc_passwd                    = $pxe2_ipxe_menus::vnc_passwd,
 ){
 
   include ::stdlib
-  
+
   # Define dictory structure on the filestem for default locations of bits.
 
   file{[
-    "${pxe2_path}",
+    $pxe2_path,
+    "${pxe2_path}/syslinux",
+    "${pxe2_path}/src",
     "${pxe2_path}/ipxe",
-    "${pxe2_path}/menu",
+    "${pxe2_path}/ipxe/disks",
+    "${pxe2_path}/ipxe/local",
     "${pxe2_path}/bin",
   ]:
     ensure  => directory,
     mode    => '0777',
     recurse => true,
-  } ->
+  }
+->file{"${pxe2_path}/ipxe/local/colour.h":
+    ensure  => file,
+    mode    => '0777',
+    content => '#undef COLOR_NORMAL_FG
+#undef COLOR_NORMAL_BG
+#undef COLOR_SELECT_FG
+#undef COLOR_SELECT_BG
+#undef COLOR_SEPARATOR_FG
+#undef COLOR_SEPARATOR_BG
+#undef COLOR_EDIT_FG
+#undef COLOR_EDIT_BG
+#undef COLOR_ALERT_FG
+#undef COLOR_ALERT_BG
+#undef COLOR_URL_FG
+#undef COLOR_URL_BG
+#undef COLOR_PXE_FG
+#undef COLOR_PXE_BG
+#define COLOR_NORMAL_FG		COLOR_CYAN
+#define COLOR_NORMAL_BG		COLOR_BLACK
+#define COLOR_SELECT_FG		COLOR_WHITE
+#define COLOR_SELECT_BG		COLOR_BLUE
+#define COLOR_SEPARATOR_FG	COLOR_WHITE
+#define COLOR_SEPARATOR_BG	COLOR_BLACK
+#define COLOR_EDIT_FG		COLOR_BLACK
+#define COLOR_EDIT_BG		COLOR_CYAN
+#define COLOR_ALERT_FG		COLOR_WHITE
+#define COLOR_ALERT_BG		COLOR_RED
+#define COLOR_URL_FG		COLOR_CYAN
+#define COLOR_URL_BG		COLOR_BLUE
+#define COLOR_PXE_FG		COLOR_BLACK
+#define COLOR_PXE_BG		COLOR_WHITE
+',
+  }
+->file{[
+    "${pxe2_path}/ipxe/local/general.h",
+    "${pxe2_path}/ipxe/local/general.h.efi",
+    ]:
+    ensure  => file,
+    mode    => '0777',
+    content => '#define DIGEST_CMD            /* Image crypto digest commands */
+#define DOWNLOAD_PROTO_HTTPS  /* Secure Hypertext Transfer Protocol */      
+#define IMAGE_COMBOOT         /* COMBOOT */
+#define IMAGE_TRUST_CMD	      /* Image trust management commands */
+#define NET_PROTO_IPV6        /* IPv6 protocol */
+#define NSLOOKUP_CMD          /* DNS resolving command */
+#define NTP_CMD               /* NTP commands */
+#define PCI_CMD               /* PCI commands */
+#define REBOOT_CMD            /* Reboot command */
+#define TIME_CMD              /* Time commands */
+#define VLAN_CMD              /* VLAN commands */
+',
+  }
+->file{"${pxe2_path}/ipxe/local/nap.h.efi":
+    ensure  => file,
+    mode    => '0777',
+    content => '/* nap.h */
+#undef NAP_EFIX86
+#undef NAP_EFIARM
+#define NAP_NULL
+',
+  }
 
+->file{"${pxe2_path}/ipxe/local/usb.h.efi":
+    ensure  => file,
+    mode    => '0777',
+    content => '/* usb.h */
+#define	USB_EFI
+',
+  }
+->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
+    source  => "http://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
+    target  => "${pxe2_path}/syslinux",
+    creates => [
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk",
+      "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
+    ],
+  }
+->file{"${pxe2_path}/src/memdisk":
+    ensure => file,
+    mode    => '0777',
+    source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
+    require => Staging::Deploy["${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz"],
+  }
 
   # *******************************************************
   # *************** Post Install Scripts ******************
@@ -42,103 +130,69 @@ class pxe2_ipxe_menus::files (
   # packages, the secondboot script, sets hostname and additional 
   # startup config then reboots.
 
-  file {"${pxe2_path}/bin/firstboot":
+->file {"${pxe2_path}/bin/firstboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/firstboot.erb'),
-  } ->
-
+  }
   # Secondboot Script
   # Executes configuration managment ( Puppet Currently )
-  file {"${pxe2_path}/bin/secondboot":
+->file {"${pxe2_path}/bin/secondboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/secondboot.erb'),
-  } ->
-
+  }
   # Postinstall Script
   # Installs the firstboot script and reboots the system
-  file {"${pxe2_path}/bin/postinstall":
+->file {"${pxe2_path}/bin/postinstall":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/postinstall.erb'),
   }
-    
   # ************************************************************
   # *************** iPXE Boot Menu Entrypoint ******************
   # ************************************************************
 
-
-  file {"${pxe2_path}/index.html":
+->file {"${pxe2_path}/src/index.html":
     ensure  => file,
     mode    => '0777',
-    content => '#!ipxe
-# This is the entrypoint to load the pxe.to iPXE menu.
-
-set conn_type https
-chain --autofree https://pxe.to/menu.ipxe || echo HTTPS Failure! attempting HTTP...
-set conn_type http
-chain --autofree http://pxe.to/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
-    ',
+    content => template('pxe2_ipxe_menus/index.html.erb'),
   }
-  file {"${pxe2_path}/ipxe.cfg":
-    ensure  => file,
-    mode    => '0777',
-    content => '#!ipxe
-
-:global_vars
-# set site name
-set site_name pxe.to
-
-# set boot domain
-set boot_domain pxe.to
-
-# set location of memdisk
-set memdisk http://${boot_domain}/memdisk
-
-# signature check enabled?
-set sigs_enabled true
-
-# image signatures check enabled?
-set img_sigs_enabled true
-
-# set location of signatures for sources
-set sigs http://${boot_domain}/sigs/
-
-# set location of latest iPXE
-set ipxe_disk pxe.to-undionly.kpxe
-
-:end
-exit
-',
-  }
-
-
-
-
-  concat {"${pxe2_path}/ipxe/menu.ipxe": 
+->concat {"${pxe2_path}/src/menu.ipxe":
     mode    => '0777',
   }
-  concat::fragment{'default_header':
-    target  => "${pxe2_path}/ipxe/menu.ipxe",
-    content => template('pxe2_ipxe_menus/ipxe/01.header.ipxe.erb'),
+  concat::fragment{'menu.ipxe-default_header':
+    target  => "${pxe2_path}/src/menu.ipxe",
+    content => template('pxe2_ipxe_menus/01.header.menu.ipxe.erb'),
     order   => 01,
   }
-  concat::fragment{'install_menu_header':
-    target  => "${pxe2_path}/ipxe/menu.ipxe",
-    content => template('pxe2_ipxe_menus/ipxe/01.header.os_menu.ipxe.erb'),
-    order   => 02,
-  }
-  concat::fragment{'default_footer':
-    target  => "${pxe2_path}/ipxe/menu.ipxe",
-    content => template('pxe2_ipxe_menus/ipxe/04.body.adv_opts_menu.ipxe.erb'),
+  concat::fragment{'menu.ipxe-default_footer':
+    target  => "${pxe2_path}/src/menu.ipxe",
+    content => template('pxe2_ipxe_menus/03.tools.menu.ipxe.erb'),
     order   => 99,
   }
-
-#  concat::fragment{'default_localboot':
-#    target  => "${pxe2_path}/ipxe/ipxe.cfg/default",
-#    content => template('pxe2_ipxe_menus/ipxe/localboot.erb'),
-#    order   => 01,
-# }
+->concat {"${pxe2_path}/src/boot.cfg":
+    mode    => '0777',
+  }
+  concat::fragment{'boot.cfg-default_header':
+    target  => "${pxe2_path}/src/boot.cfg",
+    content => template('pxe2_ipxe_menus/01.header.boot.cfg.erb'),
+    order   => 01,
+  }
+  concat::fragment{'boot.cfg-default_footer':
+    target  => "${pxe2_path}/src/boot.cfg",
+    content => template('pxe2_ipxe_menus/03.footer.boot.cfg.erb'),
+    order   => 99,
+  }
+->file {"${pxe2_path}/src/netinfo.ipxe":
+    ensure  => file,
+    mode    => '0777',
+    source  => "puppet:///modules/${module_name}/netinfo.ipxe",
+  }
+->file {"${pxe2_path}/src/utils.ipxe":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/utils.ipxe.erb'),
+  }
 
 }

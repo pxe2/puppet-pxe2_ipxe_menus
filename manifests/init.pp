@@ -6,8 +6,10 @@
 #   include pxe2_ipxe_menus
 class pxe2_ipxe_menus (
   String $pxe2_path                                  = '/pxe2',
+  String $pxe2_hostname                              = 'pxe.to',
   Optional[String] $preferred_nameserver             = undef,
   Optional[Boolean] $dban_enable                     = undef,
+  String $syslinux_version                           = '6.03',
   Optional[String] $dban_version                     = '2.3.0',
   Optional[String] $go_version                       = '1.9.2',
   Optional[String] $terraform_version                = '0.11.0',
