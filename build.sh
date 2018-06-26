@@ -10,5 +10,4 @@ export USERNAME
 export IMAGE
 export VERSION
 pdk validate
-pdk test all
 docker-compose build --no-cache --force-rm

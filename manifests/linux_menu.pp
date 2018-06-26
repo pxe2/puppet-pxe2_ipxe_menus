@@ -12,7 +12,6 @@ define pxe2_ipxe_menus::linux_menu(
   String $pxe_menu_timeout                        = $pxe2_ipxe_menus::pxe_menu_timeout,
   String $pxe_menu_total_timeout                  = $pxe2_ipxe_menus::pxe_menu_total_timeout,
   String $pxe_menu_allow_user_arguments           = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
-  String $pxe_menu_default_graphics               = $pxe2_ipxe_menus::pxe_menu_default_graphics,
   Optional[String] $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
   Optional[String] $jenkins_swarm_version_to_use  = $pxe2_ipxe_menus::jenkins_swarm_version_to_use,
   Optional[String] $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,

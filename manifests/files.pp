@@ -10,7 +10,6 @@ class pxe2_ipxe_menus::files(
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
   $pxe_menu_allow_user_arguments = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
-  $pxe_menu_default_graphics     = $pxe2_ipxe_menus::pxe_menu_default_graphics,
   $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
   $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,
   $vnc_passwd                    = $pxe2_ipxe_menus::vnc_passwd,
