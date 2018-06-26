@@ -22,3 +22,4 @@
 /update_report.txt
 .DS_Store
 /pxe2/*.*
+/build/

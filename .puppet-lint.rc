@@ -1,3 +1,28 @@
+# Remove Following Warnings
+
+# No 140 Characters Check
+# warning: puppet-lint: manifests/linux_menu.pp:33:140: line has more than 140 characters
+# warning: puppet-lint: manifests/linux_menu.pp:34:140: line has more than 140 characters
+# warning: puppet-lint: manifests/linux_menu.pp:536:140: line has more than 140 characters
+# warning: puppet-lint: manifests/linux_menu.pp:539:140: line has more than 140 characters
+# warning: puppet-lint: manifests/linux_menu.pp:589:140: line has more than 140 characters
+# warning: puppet-lint: manifests/linux_menu.pp:592:140: line has more than 140 characters
+
 --no-140chars-check
+
+# No Autoloader Layout Check
+# error: puppet-lint: manifests/files.pp:7:7: pxe2_ipxe_menus::files not in autoload module layout
+# error: puppet-lint: manifests/params.pp:9:7: pxe2_ipxe_menus::params not in autoload module layout
+# error: puppet-lint: manifests/configure.pp:9:7: pxe2_ipxe_menus::configure not in autoload module layout
+# error: puppet-lint: manifests/linux_menu.pp:8:8: pxe2_ipxe_menus::linux_menu not in autoload module layout
+# error: puppet-lint: manifests/windows_menu.pp:7:8: pxe2_ipxe_menus::windows_menu not in autoload module layout
+# error: puppet-lint: manifests/tools_menu.pp:7:8: pxe2_ipxe_menus::tools_menu not in autoload module layout
+# error: puppet-lint: manifests/init.pp:7:7: pxe2_ipxe_menus not in autoload module layout
+
 --no-autoloader_layout-check
+
+# No Single Quote strig with Variables Check
+# This is due to the pxe code in a content section
+# error: puppet-lint: manifests/files.pp:81:16: single quoted string containing a variable found 
 --no-single_quote_string_with_variables-check
+

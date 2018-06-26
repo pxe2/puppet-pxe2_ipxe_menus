@@ -1,2 +1,7 @@
+# Disabling Errors
+# convention: rubocop: spec/spec_helper.rb:6:81: Line is too long. [102/80]
+# convention: rubocop: spec/spec_helper.rb:18:81: Line is too long. [93/80]
+# convention: rubocop: spec/spec_helper.rb:20:81: Line is too long. [107/80]
+# convention: rubocop: spec/spec_helper.rb:26:81: Line is too long. [86/80] 
 Metrics/LineLength:
   Max: 200
