@@ -191,6 +191,10 @@ chain --autofree http://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attemp
     content => template('pxe2_ipxe_menus/03.footer.boot.cfg.erb'),
     order   => 99,
   }
-
+->file {"${pxe2_path}/src/netinfo.ipxe":
+    ensure  => file,
+    mode    => '0777',
+    source  => "puppet:///modules/${module_name}/netinfo.ipxe",
+  }
 
 }
