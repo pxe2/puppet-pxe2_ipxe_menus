@@ -102,10 +102,9 @@ class pxe2_ipxe_menus::files(
 #define	USB_EFI
 ',
   }
-->archive{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
+->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
     source  => "https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
     target  => '/tmp',
-    extract => true,
     creates => [
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}",
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios",
@@ -113,7 +112,8 @@ class pxe2_ipxe_menus::files(
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     ],
   }
-->archive{"${pxe2_path}/ipxe/memdisk":
+->file{"${pxe2_path}/ipxe/memdisk":
+    ensure => file,
     source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
   }
 
