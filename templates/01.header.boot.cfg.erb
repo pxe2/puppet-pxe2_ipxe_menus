@@ -5,7 +5,7 @@
 set site_name <%= @pxe2_hostname %>
 
 # set boot domain
-set boot_domain boot.<%= @pxe2_hostname %>
+set boot_domain i.<%= @pxe2_hostname %>
 
 # set location of memdisk
 set memdisk http://${boot_domain}/memdisk
