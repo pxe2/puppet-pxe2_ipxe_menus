@@ -22,6 +22,7 @@ class pxe2_ipxe_menus::files(
 
   file{[
     $pxe2_path,
+    "${pxe2_path}/syslinux",
     "${pxe2_path}/ipxe",
     "${pxe2_path}/ipxe/disks",
     "${pxe2_path}/ipxe/local",
@@ -100,6 +101,21 @@ class pxe2_ipxe_menus::files(
 #define	USB_EFI
 ',
   }
+->archive{"${pxe2_path}/syslinux":
+    source  => "https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
+    target  => '/tmp',
+    extract => true,
+    creates => [
+      "${pxe2_path}/syslinux/syslinux-${version}",
+      "${pxe2_path}/syslinux/syslinux-${version}/bios",
+      "${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk",
+      "${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk",
+    ],
+  } notice("${pxe2_path}/syslinux/syslinux-${version}")
+->archive{"${pxe2_path}/ipxe/memdisk":
+    source => ${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk":
+  } notice("${pxe2_path}/syslinux/syslinux-${version}/bios/memdisk/memdisk")
+    
 
   # *******************************************************
   # *************** Post Install Scripts ******************
