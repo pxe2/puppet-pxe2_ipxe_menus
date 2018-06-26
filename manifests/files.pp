@@ -156,14 +156,7 @@ class pxe2_ipxe_menus::files(
 ->file {"${pxe2_path}/src/index.html":
     ensure  => file,
     mode    => '0777',
-    content => "#!ipxe
-# This is the entrypoint to load the pxe.to iPXE menu.
-
-set conn_type https
-chain --autofree https://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attempting HTTP...
-set conn_type http
-chain --autofree http://${pxe2_hostname}/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
-    ",
+    content => template('pxe2_ipxe_menus/index.html.erb'),
   }
 ->concat {"${pxe2_path}/src/menu.ipxe":
     mode    => '0777',
