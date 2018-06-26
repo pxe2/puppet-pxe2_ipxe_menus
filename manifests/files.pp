@@ -113,7 +113,7 @@ class pxe2_ipxe_menus::files(
       "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     ],
   } notice("${pxe2_path}/syslinux/syslinux-${syslinux_version}")
-->archive{"${pxe2_path}/ipxe/memdisk":
+  archive{"${pxe2_path}/ipxe/memdisk":
     source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
   } notice("${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk")
 
