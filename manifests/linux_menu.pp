@@ -7,16 +7,16 @@
 
 define pxe2_ipxe_menus::linux_menu(
   # The following pxe menu variables are required for the templates used in this class
-  $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path,
-  $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
-  $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
-  $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
-  $pxe_menu_allow_user_arguments = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
-#  $pxe_menu_default_graphics     = $pxe2_ipxe_menus::pxe_menu_default_graphics,
-  $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
-  $jenkins_swarm_version_to_use  = $pxe2_ipxe_menus::jenkins_swarm_version_to_use,
-  $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,
-  $vnc_passwd                    = $pxe2_ipxe_menus::vnc_passwd,
+  String $pxe2_path                               = $pxe2_ipxe_menus::pxe2_path,
+  String $default_pxeboot_option                  = $pxe2_ipxe_menus::default_pxeboot_option,
+  String $pxe_menu_timeout                        = $pxe2_ipxe_menus::pxe_menu_timeout,
+  String $pxe_menu_total_timeout                  = $pxe2_ipxe_menus::pxe_menu_total_timeout,
+  String $pxe_menu_allow_user_arguments           = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
+  String $pxe_menu_default_graphics               = $pxe2_ipxe_menus::pxe_menu_default_graphics,
+  Optional[String] $puppetmaster                  = $pxe2_ipxe_menus::puppetmaster,
+  Optional[String] $jenkins_swarm_version_to_use  = $pxe2_ipxe_menus::jenkins_swarm_version_to_use,
+  Optional[String] $use_local_proxy               = $pxe2_ipxe_menus::use_local_proxy,
+  String $vnc_passwd                              = $pxe2_ipxe_menus::vnc_passwd,
 ){
 
 # this regex works w/ no .
@@ -400,8 +400,8 @@ define pxe2_ipxe_menus::linux_menu(
     $_dot_bootsplash = '.png'
     $url             = 'ISO Required instead of URL'
 #    $inst_repo      = "http://public-yum.oracle.com/repo/oracle/OracleLinux/OL${rel_major}/${rel_minor}/base/${p_arch}"
-#    $inst_repo      = "http://${fqdn}/${distro}/mnt/OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
-    $inst_repo       = "http://${fqdn}/${distro}/mnt/${boot_iso_name}"
+#    $inst_repo      = "http://${::fqdn}/${distro}/mnt/OracleLinux-R${rel_major}-U${rel_minor}-Server-${p_arch}-dvd.iso"
+    $inst_repo       = "http://${::fqdn}/${distro}/mnt/${boot_iso_name}"
 #    $update_repo    = "http://yum.oracle.com/repo/OracleLinux/oracle/OL${rel_major}/latest/${p_arch}"
     $update_repo     = "http://public-yum.oracle.com/repo/oracle/OracleLinux/OL${rel_major}/${rel_minor}/base/${p_arch}"
     $splashurl       = "http://mirrors.kernel.org/oracle/OL${rel_major}/${rel_minor}/base/${p_arch}"
@@ -538,8 +538,8 @@ define pxe2_ipxe_menus::linux_menu(
     $update_repo     = "${devuan_url}/${distro}/dists/${rel_name}"
     $splashurl       = "${devuan_url}/${distro}/dists/${rel_name}/main/installer-${p_arch}/current/images/netboot/${distro}-installer/${p_arch}/boot-screens/splash${_dot_bootsplash}"
     $boot_iso_url    = 'No mini.iso or boot.iso to download'
-    $boot_iso_name   = "Not Required"
-    $mini_iso_name   = "Not Required"
+    $boot_iso_name   = 'Not Required'
+    $mini_iso_name   = 'Not Required'
   }
 
   if ( $distro == 'debian' ) {
@@ -860,7 +860,7 @@ which you are curenntly using.")
     }
   }
 
-  
+
   # ${name} iPXE MENU ( pxe2/${distro}/menu/name.ipxe ) 
   if ! defined (Concat["${pxe2_path}/${distro}/menu/${name}.ipxe"]) {
     concat { "${pxe2_path}/${distro}/menu/${name}.ipxe":
@@ -869,14 +869,14 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["${name}.ipxe.header"]) {
     concat::fragment {"${name}.ipxe.header":
       target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
-      content => template("pxe2_ipxe_menus/ipxe/01.header.ipxe.erb"),
+      content => template('pxe2_ipxe_menus/ipxe/01.header.ipxe.erb'),
       order   => 01,
     }
   }
   if ! defined (Concat::Fragment["${name}.ipxe.menu_item"]) {
     concat::fragment {"${name}.ipxe.menu_item":
       target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
-      content => template("pxe2_ipxe_menus/ipxe/linux.ipxe.erb"),
+      content => template('pxe2_ipxe_menus/ipxe/linux.ipxe.erb'),
       order   => 02,
     }
   }

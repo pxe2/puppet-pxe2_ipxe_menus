@@ -4,7 +4,7 @@
 #
 # @example
 #   include pxe2_ipxe_menus::files
-class pxe2_ipxe_menus::files (
+class pxe2_ipxe_menus::files(
   $pxe2_path                     = $pxe2_ipxe_menus::pxe2_path,
   $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
@@ -17,11 +17,11 @@ class pxe2_ipxe_menus::files (
 ){
 
   include ::stdlib
-  
+
   # Define dictory structure on the filestem for default locations of bits.
 
   file{[
-    "${pxe2_path}",
+    $pxe2_path,
     "${pxe2_path}/ipxe",
     "${pxe2_path}/menu",
     "${pxe2_path}/bin",
@@ -29,9 +29,7 @@ class pxe2_ipxe_menus::files (
     ensure  => directory,
     mode    => '0777',
     recurse => true,
-  } ->
-
-
+  }
   # *******************************************************
   # *************** Post Install Scripts ******************
   # *******************************************************
@@ -42,34 +40,30 @@ class pxe2_ipxe_menus::files (
   # packages, the secondboot script, sets hostname and additional 
   # startup config then reboots.
 
-  file {"${pxe2_path}/bin/firstboot":
+->file {"${pxe2_path}/bin/firstboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/firstboot.erb'),
-  } ->
-
+  }
   # Secondboot Script
   # Executes configuration managment ( Puppet Currently )
-  file {"${pxe2_path}/bin/secondboot":
+->file {"${pxe2_path}/bin/secondboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/secondboot.erb'),
-  } ->
-
+  }
   # Postinstall Script
   # Installs the firstboot script and reboots the system
-  file {"${pxe2_path}/bin/postinstall":
+->file {"${pxe2_path}/bin/postinstall":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/postinstall.erb'),
   }
-    
   # ************************************************************
   # *************** iPXE Boot Menu Entrypoint ******************
   # ************************************************************
 
-
-  file {"${pxe2_path}/index.html":
+->file {"${pxe2_path}/index.html":
     ensure  => file,
     mode    => '0777',
     content => '#!ipxe
@@ -81,7 +75,7 @@ set conn_type http
 chain --autofree http://pxe.to/menu.ipxe || echo HTTPS Failure! attempting LOCALBOOT...
     ',
   }
-  file {"${pxe2_path}/ipxe.cfg":
+->file {"${pxe2_path}/ipxe.cfg":
     ensure  => file,
     mode    => '0777',
     content => '#!ipxe
@@ -112,11 +106,7 @@ set ipxe_disk pxe.to-undionly.kpxe
 exit
 ',
   }
-
-
-
-
-  concat {"${pxe2_path}/ipxe/menu.ipxe": 
+->concat {"${pxe2_path}/ipxe/menu.ipxe":
     mode    => '0777',
   }
   concat::fragment{'default_header':

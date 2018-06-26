@@ -7,5 +7,5 @@
 # @example
 #   include pxe2_ipxe_menus::configure
 class pxe2_ipxe_menus::configure {
-  notice("${fqdn} is in the configuration stage!")
+  notice("${::fqdn} is in the configuration stage!")
 }
