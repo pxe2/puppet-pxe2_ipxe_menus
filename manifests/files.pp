@@ -8,6 +8,7 @@ class pxe2_ipxe_menus::files(
   String $pxe2_path              = $pxe2_ipxe_menus::pxe2_path,
   String $pxe2_hostname          = $pxe2_ipxe_menus::pxe2_hostname,
   $default_pxeboot_option        = $pxe2_ipxe_menus::default_pxeboot_option,
+  String $syslinux_version       = $pxe2_ipxe_menus::syslinux_version,
   $pxe_menu_timeout              = $pxe2_ipxe_menus::pxe_menu_timeout,
   $pxe_menu_total_timeout        = $pxe2_ipxe_menus::pxe_menu_total_timeout,
   $pxe_menu_allow_user_arguments = $pxe2_ipxe_menus::pxe_menu_allow_user_arguments,
