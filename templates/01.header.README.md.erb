@@ -1,2 +1,17 @@
+### What is pxe.to?
+
+[pxe.to](http://www.pxe.to) is a merger of [puppet-quartermaster](https://github.com/ppouliot/puppet-quartermaster) and [netboot.xyz](https://netboot.xyz).  Essentially it an opinionated provisioning infrastructure that provides a convenient place to boot into any type of operating system or utility disk without the need of having to go spend time retrieving the ISO just to run it.  [iPXE](http://ipxe.org/) is used to provide a user friendly menu from within the BIOS that lets you easily choose the operating system you want along with any specific types of versions or bootable flags.
+
+If you already have iPXE up and running on the network, you can hit pxe.to at anytime by typing:
+
+    chain --autofree https://boot.pxe.to
+
+You'll need to make sure to have [DOWNLOAD_PROTO_HTTPS](https://github.com/ipxe/ipxe/blob/master/src/config/general.h#L56) enabled in iPXE.
+
+Full documentation is at pxe.to:
+* [https://pxe.to](https://pxe.to)
+
+### What Operating Systems are available?
+
 | Operating System | Version | Architecture |
 |------|------------|-------------|
