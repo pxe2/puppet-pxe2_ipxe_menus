@@ -894,7 +894,7 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["README.md-os-${name}"]) {
     concat::fragment{"README.md-os-${name}":
       target  => "${pxe2_path}/README.md",
-      content => template('pxe2_ipxe_menus/01.os.README.md.erb'),
+      content => template('pxe2_ipxe_menus/02.os.README.md.erb'),
       order   => 02,
     }
   }
