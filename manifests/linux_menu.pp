@@ -891,4 +891,11 @@ which you are curenntly using.")
       order   => 02,
     }
   }
+  if ! defined (Concat::Fragment["README.md-os-${name}"]) (
+    concat::fragment{"README.md-os-${name}":
+      target  => "${pxe2_path}/README.md",
+      content => template('pxe2_ipxe_menus/01.header.README.md.erb'),
+      order   => 02,
+    }
+  }
 }

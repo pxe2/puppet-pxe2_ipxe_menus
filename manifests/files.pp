@@ -194,5 +194,14 @@ class pxe2_ipxe_menus::files(
     mode    => '0777',
     content => template('pxe2_ipxe_menus/utils.ipxe.erb'),
   }
+->concat {"${pxe2_path}/README.md":
+    mode    => '0777',
+  }
+  concat::fragment{'README.md-default_header':
+    target  => "${pxe2_path}/README.md",
+    content => template('pxe2_ipxe_menus/01.header.README.md.erb'),
+    order   => 01,
+  }
+
 
 }
