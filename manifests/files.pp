@@ -222,7 +222,10 @@ class pxe2_ipxe_menus::files(
     mode    => '0777',
     content => template('pxe2_ipxe_menus/ipxe/disks/pxe.to.packet.erb'),
   }
-
+-> file{"${pxe2_path}/src/LICENSE"
+     ensure => file,
+     source => "/etc/puppetlabs/code/modules/${module_name}/LICENSE",
+   }
 ->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
     source  => "http://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
     target  => "${pxe2_path}/syslinux",
