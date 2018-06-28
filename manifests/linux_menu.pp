@@ -685,20 +685,23 @@ which you are curenntly using.")
 
     # This adds scripts to deploy to the system after booting into coreos 
     # when finished it should reboot.
-    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.pxe_installer.sh":
+    file { "/${pxe2_path}/src/${autofile}/${name}.pxe_installer.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
-    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.running_instance.sh":
+    file { "/${pxe2_path}/src/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
-    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
+    file { "/${pxe2_path}/src/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
   }
   if ( $distro == 'rancheros' ) {
@@ -740,20 +743,23 @@ which you are curenntly using.")
     $boot_iso_name   = 'rancheros.iso'
     $mini_iso_name   = 'Not Required'
 
-    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.pxe_installer.sh":
+    file {"/${pxe2_path}/src/${autofile}/${name}.pxe_installer.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
-    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.running_instance.sh":
+    file {"/${pxe2_path}/src/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
-    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
+    file {"/${pxe2_path}/src/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
+      require => File["/${pxe2_path}/src/${autofile}"],
     }
   }
 
@@ -782,54 +788,24 @@ which you are curenntly using.")
   notice($rel_name)
 
 #################################################
-# Begin Creating Distro Specific HTTP Folder Tree 
+# Create Autofile Folders and Files
 #################################################
 
-  if ! defined (File["${pxe2_path}/src/${distro}"]) {
-    file { "${pxe2_path}/src/${distro}":
+  if ! defined (File["${pxe2_path}/src/${autofile}"]) {
+    file { "${pxe2_path}/${distro}/src/${autofile}":
       ensure  => directory,
       require => File[ "${pxe2_path}/src" ],
     }
-    notice(File["${pxe2_path}/src/${distro}"])
+    notice(File["${pxe2_path}/src/${autofile}"])
   }
-
-#  if ! defined (File["${pxe2_path}/${distro}/menu"]){
-#    file { "${pxe2_path}/${distro}/menu":
-#      ensure  => directory,
-#    }
-#    notice(File["${pxe2_path}/${distro}/menu"])
-#  }
-
-#  if ! defined (File["${pxe2_path}/src/${distro}/graphics"]){
-#    file { "${pxe2_path}/src/${distro}/graphics":
-#      ensure  => directory,
-#    }
-#    notice(File["${pxe2_path}/src/${distro}/graphics"])
-#  }
-
-  if ! defined (File["${pxe2_path}/src/${distro}/${autofile}"]) {
-    file { "${pxe2_path}/${distro}/src/${autofile}":
-      ensure  => directory,
-      require => File[ "${pxe2_path}/src/${distro}" ],
-    }
-    notice(File["${pxe2_path}/src/${distro}/${autofile}"])
-  }
-
-  #if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]) {
-  #  file { "${pxe2_path}/${distro}/${p_arch}":
-  #    ensure  => directory,
-  #    require => File[ "${pxe2_path}/${distro}" ],
-  #  }
-  #  notice(File["${pxe2_path}/${distro}/${p_arch}"])
-  #}
 
   #  Distro Kickstart/Preseed File
   file { "${name}.${autofile}":
     ensure  => file,
-    path    => "${pxe2_path}/src/${distro}/${autofile}/${name}.${autofile}",
+    path    => "${pxe2_path}/src/${autofile}/${name}.${autofile}",
     content => template("pxe2_ipxe_menus/unattended_installation/${autofile}.erb"),
-    require => File[ "${pxe2_path}/src/${distro}/${autofile}" ],
-  } notice(File["${pxe2_path}/src/${distro}/${autofile}/${name}.${autofile}"])
+    require => File[ "${pxe2_path}/src/${autofile}" ],
+  } notice(File["${pxe2_path}/src/${autofile}/${name}.${autofile}"])
 
 
   # MENU.iPXE Menu Entry
@@ -852,45 +828,6 @@ which you are curenntly using.")
   }
 
 
-  # ${distro} iPXE MENU ( menu/distro.ipxe ) 
-#  if ! defined (Concat["${pxe2_path}/ipxe/${distro}.ipxe"]) {
-#    concat { "${pxe2_path}/ipxe/${distro}.ipxe":
-#    }
-#  }
-#  if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
-#    concat::fragment {"${distro}.submenu_header":
-#      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-#      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
-#      order   => 01,
-#    }
-#  }
-#  if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
-#    concat::fragment {"${distro}.${name}.menu_item":
-#      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-#      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
-#    }
-#  }
-
-
-  # ${name} iPXE MENU ( pxe2/${distro}/menu/name.ipxe ) 
-  if ! defined (Concat["${pxe2_path}/${distro}/menu/${name}.ipxe"]) {
-    concat { "${pxe2_path}/${distro}/menu/${name}.ipxe":
-    }
-  }
-  if ! defined (Concat::Fragment["${name}.ipxe.header"]) {
-    concat::fragment {"${name}.ipxe.header":
-      target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/01.header.ipxe.erb'),
-      order   => 01,
-    }
-  }
-  if ! defined (Concat::Fragment["${name}.ipxe.menu_item"]) {
-    concat::fragment {"${name}.ipxe.menu_item":
-      target  => "${pxe2_path}/${distro}/menu/${name}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/linux.ipxe.erb'),
-      order   => 02,
-    }
-  }
   if ! defined (Concat::Fragment["README.md-os-${name}"]) {
     concat::fragment{"README.md-os-${name}":
       target  => "${pxe2_path}/README.md",
