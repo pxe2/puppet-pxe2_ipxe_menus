@@ -1,4 +1,5 @@
 forge 'http://forge.puppetlabs.com'
+#
 
 mod 'puppet/archive', :latest
 mod 'puppet/staging', :latest
