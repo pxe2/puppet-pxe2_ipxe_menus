@@ -1,5 +1,6 @@
 forge 'http://forge.puppetlabs.com'
 
+mod 'puppet/archive', :latest
 mod 'puppet/staging', :latest
 mod 'puppetlabs/concat', :latest
 mod 'puppetlabs/dummy_service', :latest
