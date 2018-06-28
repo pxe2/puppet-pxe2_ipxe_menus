@@ -103,6 +103,22 @@ class pxe2_ipxe_menus::files(
 #define	USB_EFI
 ',
   }
+->file{"${pxe2_path}/ipxe/disks/pxe.to":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/ipxe/disks/pxe.to.erb'),
+  }
+->file{"${pxe2_path}/ipxe/disks/pxe.to-gce":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/ipxe/disks/pxe.to.gce.erb'),
+  }
+->file{"${pxe2_path}/ipxe/disks/pxe.to-packet":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/ipxe/disks/pxe.to.packet.erb'),
+  }
+
 ->staging::deploy{"${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz":
     source  => "http://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-${syslinux_version}.tar.gz",
     target  => "${pxe2_path}/syslinux",
