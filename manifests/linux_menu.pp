@@ -829,12 +829,4 @@ which you are curenntly using.")
       order   => 02,
     }
   }
-  # pxe2/docs/index.md
-  if ! defined (Concat::Fragment["index.md-os-${name}"]) {
-    concat::fragment{"index.md-os-${name}":
-      target  => "${pxe2_path}/docs/index.md",
-      content => template('pxe2_ipxe_menus/02.os.README.md.erb'),
-      order   => 02,
-    }
-  }
 }
