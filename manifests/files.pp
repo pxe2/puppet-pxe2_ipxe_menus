@@ -34,12 +34,109 @@ class pxe2_ipxe_menus::files(
     mode    => '0777',
     recurse => true,
   }
-->file{"${pxe2_path}/docs":
+->file{[
+    "${pxe2_path}/docs",
+    "${pxe2_path}/docs/img",
+  ]:
     ensure  => directory,
     mode    => '0777',
-    source  => "puppet:///modules/${module_name}/docs",
     recurse => true,
   }
+->file{"${pxe2_path}/docs/img/${pxe2_hostname}.gif":
+    ensure  => file,
+    mode    => '0777',
+    source => "puppet:///modules/${module_name}/docs/img/${pxe2_hostname}.gif",
+  }
+->file{"${pxe2_path}/docs/CNAME":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/CNAME.erb'),
+  }
+->file{"${pxe2_path}/docs/boot-drac.md":
+    ensure  => file,
+    mode    => '0777',
+    source => "puppet:///modules/${module_name}/docs/boot-drac.md",
+  }
+->file{"${pxe2_path}/docs/boot-ilo.md":
+    ensure  => file,
+    mode    => '0777',
+    source => "puppet:///modules/${module_name}/docs/boot-ilo.md",
+  }
+->file{"${pxe2_path}/docs/boot-ipxe.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/boot-ipxe.md.erb'),
+  }
+->file{"${pxe2_path}/docs/boot-iso.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/boot-iso.md.erb'),
+  }
+->file{"${pxe2_path}/docs/boot-loaders.md":
+    ensure  => file,
+    mode    => '0777',
+    source => "puppet:///modules/${module_name}/docs/boot-loaders.md",
+  }
+->file{"${pxe2_path}/docs/boot-tftp.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/boot-tftp.md.erb'),
+  }
+->file{"${pxe2_path}/docs/boot-usb.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/boot-usb.md.erb'),
+  }
+->file{"${pxe2_path}/docs/boot-vmware.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/boot-vmware.md.erb'),
+  }
+->file{[
+    "${pxe2_path}/docs/contributing.md",
+    "${pxe2_path}/CONTRIBUTING.md",
+  ]:
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/contributing.md.erb'),
+  }
+->file{"${pxe2_path}/docs/faq.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/faq.md.erb'),
+  }
+->file{"${pxe2_path}/docs/usage-digitalocean.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-digitalocean.md.erb'),
+  }
+->file{"${pxe2_path}/docs/usage-gce.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-gce.md.erb'),
+  }
+->file{"${pxe2_path}/docs/usage-packet.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-packet.md.erb'),
+  }
+->file{"${pxe2_path}/docs/usage-openstack.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-openstack.md.erb'),
+  }
+->file{"${pxe2_path}/docs/usage-rackspace.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-rackspace.md.erb'),
+  }
+
+->file{"${pxe2_path}/docs/usage-vultr.md":
+    ensure  => file,
+    mode    => '0777',
+    content => template('pxe2_ipxe_menus/docs/usage-vultr.md.erb'),
+  }
+
 
 ->file{"${pxe2_path}/ipxe/local/colour.h":
     ensure  => file,
@@ -225,6 +322,13 @@ class pxe2_ipxe_menus::files(
     content => template('pxe2_ipxe_menus/01.header.README.md.erb'),
     order   => 01,
   }
-
+->concat {"${pxe2_path}/docs/index.md":
+    mode    => '0777',
+  }
+  concat::fragment{'index.md-default_header':
+    target  => "${pxe2_path}/docs/index.md",
+    content => template('pxe2_ipxe_menus/01.header.README.md.erb'),
+    order   => 01,
+  }
 
 }
