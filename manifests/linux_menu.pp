@@ -278,7 +278,7 @@ define pxe2_ipxe_menus::linux_menu(
 
     # This adds scripts to deploy to the system after booting into OpenSuse
     # when finished it should reboot.
-    file {"/${pxe2_path}/${distro}/${autofile}/kernelbuilder.${name}.${autofile}":
+    file {"/${pxe2_path}/src/${autofile}/kernelbuilder.${name}.${autofile}":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/kernelbuilder/autoyast.erb'),
@@ -689,19 +689,16 @@ which you are curenntly using.")
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
     file { "/${pxe2_path}/src/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
     file { "/${pxe2_path}/src/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
   }
   if ( $distro == 'rancheros' ) {
@@ -747,19 +744,16 @@ which you are curenntly using.")
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
     file {"/${pxe2_path}/src/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
     file {"/${pxe2_path}/src/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
-      require => File["/${pxe2_path}/src/${autofile}"],
     }
   }
 
