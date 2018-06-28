@@ -172,7 +172,7 @@ class pxe2_ipxe_menus::files(
 ->file {"${pxe2_path}/src/index.html":
     ensure  => file,
     mode    => '0777',
-    content => template('pxe2_ipxe_menus/index.html.erb'),
+    content => template('pxe2_ipxe_menus/ipxe/disks/pxe.to.erb'),
   }
 ->concat {"${pxe2_path}/src/menu.ipxe":
     mode    => '0777',
