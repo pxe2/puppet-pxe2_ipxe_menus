@@ -330,5 +330,10 @@ class pxe2_ipxe_menus::files(
     content => template('pxe2_ipxe_menus/03.footer.README.md.erb'),
     order   => 99,
   }
+->file {"${pxe2_path}/docs/index.md":
+    ensure => file,
+    mode    => '0777',
+    source => "${pxe2_path}/README.md",
+  }
 
 }
