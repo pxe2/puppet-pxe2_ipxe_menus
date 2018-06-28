@@ -685,17 +685,17 @@ which you are curenntly using.")
 
     # This adds scripts to deploy to the system after booting into coreos 
     # when finished it should reboot.
-    file { "/${pxe2_path}/${distro}/${autofile}/${name}.pxe_installer.sh":
+    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.pxe_installer.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
     }
-    file { "/${pxe2_path}/${distro}/${autofile}/${name}.running_instance.sh":
+    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
     }
-    file { "/${pxe2_path}/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
+    file { "/${pxe2_path}/src/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
@@ -740,17 +740,17 @@ which you are curenntly using.")
     $boot_iso_name   = 'rancheros.iso'
     $mini_iso_name   = 'Not Required'
 
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.pxe_installer.sh":
+    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.pxe_installer.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/pxe_installer.sh.erb'),
     }
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.running_instance.sh":
+    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.running_instance.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/running_instance.sh.erb'),
     }
-    file {"/${pxe2_path}/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
+    file {"/${pxe2_path}/src/${distro}/${autofile}/${name}.custom_ip_resolution.sh":
       ensure  => file,
       mode    => '0777',
       content => template('pxe2_ipxe_menus/scripts/coreos.custom_ip_resolution.sh.erb'),
@@ -785,51 +785,51 @@ which you are curenntly using.")
 # Begin Creating Distro Specific HTTP Folder Tree 
 #################################################
 
-  if ! defined (File["${pxe2_path}/${distro}"]) {
-    file { "${pxe2_path}/${distro}":
+  if ! defined (File["${pxe2_path}/src/${distro}"]) {
+    file { "${pxe2_path}/src/${distro}":
       ensure  => directory,
-      require => File[ $pxe2_path ],
+      require => File[ "${pxe2_path}/src" ],
     }
-    notice(File["${pxe2_path}/${distro}"])
+    notice(File["${pxe2_path}/src/${distro}"])
   }
 
-  if ! defined (File["${pxe2_path}/${distro}/menu"]){
-    file { "${pxe2_path}/${distro}/menu":
+#  if ! defined (File["${pxe2_path}/${distro}/menu"]){
+#    file { "${pxe2_path}/${distro}/menu":
+#      ensure  => directory,
+#    }
+#    notice(File["${pxe2_path}/${distro}/menu"])
+#  }
+
+#  if ! defined (File["${pxe2_path}/src/${distro}/graphics"]){
+#    file { "${pxe2_path}/src/${distro}/graphics":
+#      ensure  => directory,
+#    }
+#    notice(File["${pxe2_path}/src/${distro}/graphics"])
+#  }
+
+  if ! defined (File["${pxe2_path}/src/${distro}/${autofile}"]) {
+    file { "${pxe2_path}/${distro}/src/${autofile}":
       ensure  => directory,
+      require => File[ "${pxe2_path}/src/${distro}" ],
     }
-    notice(File["${pxe2_path}/${distro}/menu"])
+    notice(File["${pxe2_path}/src/${distro}/${autofile}"])
   }
 
-  if ! defined (File["${pxe2_path}/${distro}/graphics"]){
-    file { "${pxe2_path}/${distro}/graphics":
-      ensure  => directory,
-    }
-    notice(File["${pxe2_path}/${distro}/graphics"])
-  }
-
-  if ! defined (File["${pxe2_path}/${distro}/${autofile}"]) {
-    file { "${pxe2_path}/${distro}/${autofile}":
-      ensure  => directory,
-      require => File[ "${pxe2_path}/${distro}" ],
-    }
-    notice(File["${pxe2_path}/${distro}/${autofile}"])
-  }
-
-  if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]) {
-    file { "${pxe2_path}/${distro}/${p_arch}":
-      ensure  => directory,
-      require => File[ "${pxe2_path}/${distro}" ],
-    }
-    notice(File["${pxe2_path}/${distro}/${p_arch}"])
-  }
+  #if ! defined (File["${pxe2_path}/${distro}/${p_arch}"]) {
+  #  file { "${pxe2_path}/${distro}/${p_arch}":
+  #    ensure  => directory,
+  #    require => File[ "${pxe2_path}/${distro}" ],
+  #  }
+  #  notice(File["${pxe2_path}/${distro}/${p_arch}"])
+  #}
 
   #  Distro Kickstart/Preseed File
   file { "${name}.${autofile}":
     ensure  => file,
-    path    => "${pxe2_path}/${distro}/${autofile}/${name}.${autofile}",
+    path    => "${pxe2_path}/src/${distro}/${autofile}/${name}.${autofile}",
     content => template("pxe2_ipxe_menus/unattended_installation/${autofile}.erb"),
-    require => File[ "${pxe2_path}/${distro}/${autofile}" ],
-  } notice(File["${pxe2_path}/${distro}/${autofile}/${name}.${autofile}"])
+    require => File[ "${pxe2_path}/src/${distro}/${autofile}" ],
+  } notice(File["${pxe2_path}/src/${distro}/${autofile}/${name}.${autofile}"])
 
 
   # MENU.iPXE Menu Entry
