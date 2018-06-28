@@ -22,5 +22,5 @@ RUN \
     && puppet module list \
     && puppet module list --tree
 ENTRYPOINT \
-    puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/all.pp
+    puppet apply --debug --trace --verbose --modulepath=/etc/puppetlabs/code/environments/production/modules:/etc/puppetlabs/code/modules /etc/puppetlabs/code/modules/pxe2_ipxe_menus/examples/all.pp
 WORKDIR /pxe2
