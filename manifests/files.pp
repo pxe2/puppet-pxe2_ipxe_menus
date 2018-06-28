@@ -34,6 +34,13 @@ class pxe2_ipxe_menus::files(
     mode    => '0777',
     recurse => true,
   }
+->file{"${pxe2_path}/docs":
+    ensure  => directory,
+    mode    => '0777',
+    source  => "puppet:///modules/${module_name}/docs",
+    recurse => true,
+  }
+
 ->file{"${pxe2_path}/ipxe/local/colour.h":
     ensure  => file,
     mode    => '0777',
