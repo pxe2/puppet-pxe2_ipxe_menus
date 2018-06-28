@@ -792,7 +792,7 @@ which you are curenntly using.")
 #################################################
 
   if ! defined (File["${pxe2_path}/src/${autofile}"]) {
-    file { "${pxe2_path}/${distro}/src/${autofile}":
+    file { "${pxe2_path}/src/${autofile}":
       ensure  => directory,
       require => File[ "${pxe2_path}/src" ],
     }
