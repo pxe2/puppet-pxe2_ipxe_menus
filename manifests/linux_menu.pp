@@ -853,23 +853,23 @@ which you are curenntly using.")
 
 
   # ${distro} iPXE MENU ( menu/distro.ipxe ) 
-  if ! defined (Concat["${pxe2_path}/ipxe/${distro}.ipxe"]) {
-    concat { "${pxe2_path}/ipxe/${distro}.ipxe":
-    }
-  }
-  if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
-    concat::fragment {"${distro}.submenu_header":
-      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
-      order   => 01,
-    }
-  }
-  if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
-    concat::fragment {"${distro}.${name}.menu_item":
-      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
-    }
-  }
+#  if ! defined (Concat["${pxe2_path}/ipxe/${distro}.ipxe"]) {
+#    concat { "${pxe2_path}/ipxe/${distro}.ipxe":
+#    }
+#  }
+#  if ! defined (Concat::Fragment["${distro}.submenu_header"]) {
+#    concat::fragment {"${distro}.submenu_header":
+#      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
+#      content => template('pxe2_ipxe_menus/ipxe/02.header.tool_menu.ipxe.erb'),
+#      order   => 01,
+#    }
+#  }
+#  if ! defined (Concat::Fragment["{distro}${name}.menu_item"]) {
+#    concat::fragment {"${distro}.${name}.menu_item":
+#      target  => "${pxe2_path}/ipxe/${distro}.ipxe",
+#      content => template('pxe2_ipxe_menus/ipxe/02.body.os_menu.ipxe.erb'),
+#    }
+#  }
 
 
   # ${name} iPXE MENU ( pxe2/${distro}/menu/name.ipxe ) 
