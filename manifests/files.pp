@@ -42,6 +42,9 @@ class pxe2_ipxe_menus::files(
     mode    => '0777',
     recurse => true,
   }
+->archive{"${pxe2_path}/docs/LICENSE":
+    source => "https://raw.githubusercontent.com/pxe2/LICENSE-Apache2.0/master/LICENSE",
+  }
 ->file{"${pxe2_path}/docs/img/${pxe2_hostname}.gif":
     ensure => file,
     mode   => '0777',
