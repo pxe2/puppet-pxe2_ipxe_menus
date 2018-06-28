@@ -43,8 +43,8 @@ class pxe2_ipxe_menus::files(
     recurse => true,
   }
 ->file{"${pxe2_path}/docs/img/${pxe2_hostname}.gif":
-    ensure  => file,
-    mode    => '0777',
+    ensure => file,
+    mode   => '0777',
     source => "puppet:///modules/${module_name}/docs/img/${pxe2_hostname}.gif",
   }
 ->file{"${pxe2_path}/docs/CNAME":
@@ -53,13 +53,13 @@ class pxe2_ipxe_menus::files(
     content => template('pxe2_ipxe_menus/docs/CNAME.erb'),
   }
 ->file{"${pxe2_path}/docs/boot-drac.md":
-    ensure  => file,
-    mode    => '0777',
+    ensure => file,
+    mode   => '0777',
     source => "puppet:///modules/${module_name}/docs/boot-drac.md",
   }
 ->file{"${pxe2_path}/docs/boot-ilo.md":
-    ensure  => file,
-    mode    => '0777',
+    ensure => file,
+    mode   => '0777',
     source => "puppet:///modules/${module_name}/docs/boot-ilo.md",
   }
 ->file{"${pxe2_path}/docs/boot-ipxe.md":
@@ -73,8 +73,8 @@ class pxe2_ipxe_menus::files(
     content => template('pxe2_ipxe_menus/docs/boot-iso.md.erb'),
   }
 ->file{"${pxe2_path}/docs/boot-loaders.md":
-    ensure  => file,
-    mode    => '0777',
+    ensure => file,
+    mode   => '0777',
     source => "puppet:///modules/${module_name}/docs/boot-loaders.md",
   }
 ->file{"${pxe2_path}/docs/boot-tftp.md":
