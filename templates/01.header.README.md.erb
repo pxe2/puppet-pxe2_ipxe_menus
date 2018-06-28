@@ -1,38 +1,38 @@
-## pxe.to
+## <%= @pxe2_hostname %>
 
-[![Build Status](https://travis-ci.org/pxe2/pxe.to.svg?branch=master)](https://travis-ci.org/pxe2/pxe.to)
+[![Build Status](https://travis-ci.org/pxe2/<%= @pxe2_hostname %>.svg?branch=master)](https://travis-ci.org/pxe2/<%= @pxe2_hostname %>)
 
-![pxe.to menu](https://pxe.to/images/pxe.to.gif)
+![<%= @pxe2_hostname %> menu](https://<%= @pxe2_hostname %>/images/<%= @pxe2_hostname %>.gif)
 
 ### Bootloader Downloads
 
-These iPXE disks will automatically load into [boot.pxe.to](https://boot.pxe.to):
+These iPXE disks will automatically load into [i.<%= @pxe2_hostname %>](https://i.<%= @pxe2_hostname %>):
 
 | Type | Bootloader | Description |
 |------|------------|-------------|
-|ISO (Legacy)| [pxe.to.iso](https://boot.pxe.to/ipxe/pxe.to.iso)| Used for CD/DVD, Virtual CDs like DRAC/iLO, VMware, Virtual Box (Legacy) |
-|ISO (EFI)|[pxe.to-efi.iso](https://boot.pxe.to/ipxe/pxe.to-efi.iso)| Same as ISO (Legacy) but used for EFI BIOS, works in Virtual Box EFI mode |
-|Floppy| [pxe.to.dsk](https://boot.pxe.to/ipxe/pxe.to.dsk)| Used for 1.44 MB floppies, Virtual floppies like DRAC/iLO, VMware, Virtual Box|
-|USB| [pxe.to.usb](https://boot.pxe.to/ipxe/pxe.to.usb)| Used for creation of USB Keys|
-|Kernel| [pxe.to.lkrn](https://boot.pxe.to/ipxe/pxe.to.lkrn)| Used for booting from GRUB/EXTLINUX|
-|DHCP| [pxe.to.kpxe](https://boot.pxe.to/ipxe/pxe.to.kpxe)| DHCP boot image file, uses built-in iPXE NIC drivers|
-|DHCP-undionly| [pxe.to-undionly.kpxe](https://boot.pxe.to/ipxe/pxe.to-undionly.kpxe)| DHCP boot image file, use if you have NIC issues|
-|EFI| [pxe.to.efi](https://boot.pxe.to/ipxe/pxe.to.efi)| EFI boot image file|
+|ISO (Legacy)| [<%= @pxe2_hostname %>.iso](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.iso)| Used for CD/DVD, Virtual CDs like DRAC/iLO, VMware, Virtual Box (Legacy) |
+|ISO (EFI)|[<%= @pxe2_hostname %>-efi.iso](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>-efi.iso)| Same as ISO (Legacy) but used for EFI BIOS, works in Virtual Box EFI mode |
+|Floppy| [<%= @pxe2_hostname %>.dsk](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.dsk)| Used for 1.44 MB floppies, Virtual floppies like DRAC/iLO, VMware, Virtual Box|
+|USB| [<%= @pxe2_hostname %>.usb](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.usb)| Used for creation of USB Keys|
+|Kernel| [<%= @pxe2_hostname %>.lkrn](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.lkrn)| Used for booting from GRUB/EXTLINUX|
+|DHCP| [<%= @pxe2_hostname %>.kpxe](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.kpxe)| DHCP boot image file, uses built-in iPXE NIC drivers|
+|DHCP-undionly| [<%= @pxe2_hostname %>-undionly.kpxe](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>-undionly.kpxe)| DHCP boot image file, use if you have NIC issues|
+|EFI| [<%= @pxe2_hostname %>.efi](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>.efi)| EFI boot image file|
 
-SHA256 checksums are generated during each build of iPXE and are located [here](https://boot.pxe.to/ipxe/pxe.to-sha256-checksums.txt).  You can also view the scripts that are embedded into the images [here](https://github.com/pxe2/pxe.to/tree/master/ipxe/disks).
+SHA256 checksums are generated during each build of iPXE and are located [here](https://i.<%= @pxe2_hostname %>/ipxe/<%= @pxe2_hostname %>-sha256-checksums.txt).  You can also view the scripts that are embedded into the images [here](https://github.com/pxe2/<%= @pxe2_hostname %>/tree/master/ipxe/disks).
 
-### What is pxe.to?
+### What is <%= @pxe2_hostname %>?
 
-[pxe.to](http://www.pxe.to) is a merger of [puppet-quartermaster](https://github.com/ppouliot/puppet-quartermaster) and [netboot.xyz](https://netboot.xyz).  Essentially it an opinionated provisioning infrastructure that provides a convenient place to boot into any type of operating system or utility disk without the need of having to go spend time retrieving the ISO just to run it.  [iPXE](http://ipxe.org/) is used to provide a user friendly menu from within the BIOS that lets you easily choose the operating system you want along with any specific types of versions or bootable flags.
+[<%= @pxe2_hostname %>](http://www.<%= @pxe2_hostname %>) is a merger of [puppet-quartermaster](https://github.com/ppouliot/puppet-quartermaster) and [neti.xyz](https://neti.xyz).  Essentially it an opinionated provisioning infrastructure that provides a convenient place to boot into any type of operating system or utility disk without the need of having to go spend time retrieving the ISO just to run it.  [iPXE](http://ipxe.org/) is used to provide a user friendly menu from within the BIOS that lets you easily choose the operating system you want along with any specific types of versions or bootable flags.
 
-If you already have iPXE up and running on the network, you can hit pxe.to at anytime by typing:
+If you already have iPXE up and running on the network, you can hit <%= @pxe2_hostname %> at anytime by typing:
 
-    chain --autofree https://i.pxe.to
+    chain --autofree https://i.<%= @pxe2_hostname %>
 
 You'll need to make sure to have [DOWNLOAD_PROTO_HTTPS](https://github.com/ipxe/ipxe/blob/master/src/config/general.h#L56) enabled in iPXE.
 
-Full documentation is at pxe.to:
-* [https://pxe.to](https://pxe.to)
+Full documentation is at <%= @pxe2_hostname %>:
+* [https://<%= @pxe2_hostname %>](https://<%= @pxe2_hostname %>)
 
 ### What Operating Systems are available?
 
