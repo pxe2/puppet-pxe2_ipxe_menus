@@ -23,7 +23,7 @@ SHA256 checksums are generated during each build of iPXE and are located [here](
 
 ### What is <%= @pxe2_hostname %>?
 
-[<%= @pxe2_hostname %>](http://www.<%= @pxe2_hostname %>) is a merger of [puppet-quartermaster](https://github.com/ppouliot/puppet-quartermaster) and [neti.xyz](https://neti.xyz).  Essentially it an opinionated provisioning infrastructure that provides a convenient place to boot into any type of operating system or utility disk without the need of having to go spend time retrieving the ISO just to run it.  [iPXE](http://ipxe.org/) is used to provide a user friendly menu from within the BIOS that lets you easily choose the operating system you want along with any specific types of versions or bootable flags.
+[<%= @pxe2_hostname %>](http://www.<%= @pxe2_hostname %>) is a merger of [puppet-quartermaster](https://github.com/ppouliot/puppet-quartermaster) and [<%= @pxe2_hostname %>](https://<%= @pxe2_hostname %>).  Essentially it an opinionated provisioning infrastructure that provides a convenient place to boot into any type of operating system or utility disk without the need of having to go spend time retrieving the ISO just to run it.  [iPXE](http://ipxe.org/) is used to provide a user friendly menu from within the BIOS that lets you easily choose the operating system you want along with any specific types of versions or bootable flags.
 
 If you already have iPXE up and running on the network, you can hit <%= @pxe2_hostname %> at anytime by typing:
 
