@@ -9,5 +9,5 @@ VERSION=`cat VERSION`
 export USERNAME
 export IMAGE
 export VERSION
-pdk validate
+# pdk validate
 docker-compose build --no-cache --force-rm
