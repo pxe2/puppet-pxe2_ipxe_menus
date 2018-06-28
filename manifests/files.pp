@@ -130,9 +130,9 @@ class pxe2_ipxe_menus::files(
     ],
   }
 ->file{"${pxe2_path}/src/memdisk":
-    ensure => file,
+    ensure  => file,
     mode    => '0777',
-    source => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
+    source  => "${pxe2_path}/syslinux/syslinux-${syslinux_version}/bios/memdisk/memdisk",
     require => Staging::Deploy["${pxe2_path}/syslinux/syslinux-${syslinux_version}.tar.gz"],
   }
 
@@ -201,9 +201,9 @@ class pxe2_ipxe_menus::files(
     order   => 99,
   }
 ->file {"${pxe2_path}/src/netinfo.ipxe":
-    ensure  => file,
-    mode    => '0777',
-    source  => "puppet:///modules/${module_name}/netinfo.ipxe",
+    ensure => file,
+    mode   => '0777',
+    source => "puppet:///modules/${module_name}/netinfo.ipxe",
   }
 ->file {"${pxe2_path}/src/utils.ipxe":
     ensure  => file,
