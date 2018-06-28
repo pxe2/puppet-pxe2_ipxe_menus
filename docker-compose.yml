@@ -1,7 +1,7 @@
 version: '3'
 services:
   ipxe-menu-builder:
-    image: "${USERNAME}/${IMAGE}:${VERSION}"
+    image: "${USERNAME}/${IMAGE}"
     container_name: ipxe-menu-builder
     build:
       context: .
