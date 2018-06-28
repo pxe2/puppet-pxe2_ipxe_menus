@@ -328,8 +328,9 @@ class pxe2_ipxe_menus::files(
   concat::fragment{'README.md-default_footer':
     target  => "${pxe2_path}/README.md",
     content => template('pxe2_ipxe_menus/03.footer.README.md.erb'),
-    order   => 01,
+    order   => 99,
   }
+  # 
 ->concat {"${pxe2_path}/docs/index.md":
     mode    => '0777',
   }
@@ -341,7 +342,7 @@ class pxe2_ipxe_menus::files(
   concat::fragment{'index.md-default_footer':
     target  => "${pxe2_path}/docs/index.md",
     content => template('pxe2_ipxe_menus/03.footer.README.md.erb'),
-    order   => 01,
+    order   => 99,
   }
 
 }
