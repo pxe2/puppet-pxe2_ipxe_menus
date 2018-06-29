@@ -46,6 +46,12 @@ class pxe2_ipxe_menus::files(
     mode   => '0777',
     content => template('pxe2_ipxe_menus/scripts/prep-release.sh.erb'),
   }
+->file{"${pxe2_path}/script/decrypt-secrets.sh":
+    ensure => file,
+    mode   => '0777',
+    content => '#! /usr/bin/env bash
+openssl enc -d -aes256 -in secrets.tar.enc | tar xz -C .',
+  }
 ->file{[
     "${pxe2_path}/docs",
     "${pxe2_path}/docs/img",
