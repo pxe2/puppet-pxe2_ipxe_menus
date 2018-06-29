@@ -833,6 +833,7 @@ which you are curenntly using.")
   if ! defined (Concat["${pxe2_path}/src/${distro}.ipxe"]) {
     concat{"-${pxe2_path}/src/${distro}.ipxe":
       mode => '0777',
+      require => File["${pxe2_path}/src"],
     }
   }
   if ! defined (Concat::Fragment["${distro}.ipxe-header"]) {
