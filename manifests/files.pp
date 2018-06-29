@@ -24,7 +24,8 @@ class pxe2_ipxe_menus::files(
   file{[
     $pxe2_path,
     "${pxe2_path}/syslinux",
-    "${pxe2_path}/src",
+    "${pxe2_path}/src/script",
+    "${pxe2_path}/src/sigs",
     "${pxe2_path}/ipxe",
     "${pxe2_path}/ipxe/disks",
     "${pxe2_path}/ipxe/local",
@@ -33,6 +34,11 @@ class pxe2_ipxe_menus::files(
     ensure  => directory,
     mode    => '0777',
     recurse => true,
+  }
+->file{"${pxe2_path}/script/secrets.tar.enc":
+    ensure => file,
+    mode   => '0777',
+    source => "puppet:///modules/${module_name}/secrets.tar.enc",
   }
 ->file{[
     "${pxe2_path}/docs",
