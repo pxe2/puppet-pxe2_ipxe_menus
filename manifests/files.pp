@@ -40,6 +40,11 @@ class pxe2_ipxe_menus::files(
     mode   => '0777',
     source => "puppet:///modules/${module_name}/secrets.tar.enc",
   }
+->file{"${pxe2_path}/script/prep-release.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('pxe2_ipxe_menus/scripts/prep-release.sh.erb'),
+  }
 ->file{[
     "${pxe2_path}/docs",
     "${pxe2_path}/docs/img",
