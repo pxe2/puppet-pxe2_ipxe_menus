@@ -24,6 +24,7 @@ class pxe2_ipxe_menus::files(
   file{[
     $pxe2_path,
     "${pxe2_path}/syslinux",
+    "${pxe2_path}/src",
     "${pxe2_path}/src/script",
     "${pxe2_path}/src/sigs",
     "${pxe2_path}/ipxe",
