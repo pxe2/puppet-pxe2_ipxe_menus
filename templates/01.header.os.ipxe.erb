@@ -1,0 +1,13 @@
+
+#!ipxe
+
+# <%= @distro.capitalize %> Operating System
+# 
+
+goto ${menu}
+
+:<%= @distro %>
+set os <%= @distro.capitalize %>
+clear <%= @distro %>_version
+menu ${os} - ${arch_a} - Image Sig Checks: [${img_sigs_enabled}]
+item --gap Latest Releases
