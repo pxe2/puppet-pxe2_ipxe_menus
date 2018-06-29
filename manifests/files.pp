@@ -156,39 +156,42 @@ openssl enc -d -aes256 -in secrets.tar.enc | tar xz -C .',
   }
 
 
-->file{"${pxe2_path}/ipxe/local/colour.h":
-    ensure  => file,
-    mode    => '0777',
-    content => '#undef COLOR_NORMAL_FG
-#undef COLOR_NORMAL_BG
-#undef COLOR_SELECT_FG
-#undef COLOR_SELECT_BG
-#undef COLOR_SEPARATOR_FG
-#undef COLOR_SEPARATOR_BG
-#undef COLOR_EDIT_FG
-#undef COLOR_EDIT_BG
-#undef COLOR_ALERT_FG
-#undef COLOR_ALERT_BG
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!! DISABLING THIS DUE TO FAILED BUILDS USING THE NETBOOT.XYZ SCRIPT !!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#->file{"${pxe2_path}/ipxe/local/colour.h":
+#    ensure  => file,
+#    mode    => '0777',
+#    content => '#undef COLOR_NORMAL_FG
+##undef COLOR_NORMAL_BG
+##undef COLOR_SELECT_FG
+##undef COLOR_SELECT_BG
+##undef COLOR_SEPARATOR_FG
+##undef COLOR_SEPARATOR_BG
+##undef COLOR_EDIT_FG
+##undef COLOR_EDIT_BG
+##undef COLOR_ALERT_FG
+##undef COLOR_ALERT_BG
 #undef COLOR_URL_FG
-#undef COLOR_URL_BG
-#undef COLOR_PXE_FG
-#undef COLOR_PXE_BG
-#define COLOR_NORMAL_FG		COLOR_CYAN
-#define COLOR_NORMAL_BG		COLOR_BLACK
-#define COLOR_SELECT_FG		COLOR_WHITE
-#define COLOR_SELECT_BG		COLOR_BLUE
-#define COLOR_SEPARATOR_FG	COLOR_WHITE
-#define COLOR_SEPARATOR_BG	COLOR_BLACK
-#define COLOR_EDIT_FG		COLOR_BLACK
-#define COLOR_EDIT_BG		COLOR_CYAN
-#define COLOR_ALERT_FG		COLOR_WHITE
-#define COLOR_ALERT_BG		COLOR_RED
-#define COLOR_URL_FG		COLOR_CYAN
-#define COLOR_URL_BG		COLOR_BLUE
-#define COLOR_PXE_FG		COLOR_BLACK
-#define COLOR_PXE_BG		COLOR_WHITE
-',
-  }
+##undef COLOR_URL_BG
+##undef COLOR_PXE_FG
+##undef COLOR_PXE_BG
+##define COLOR_NORMAL_FG		COLOR_CYAN
+##define COLOR_NORMAL_BG		COLOR_BLACK
+##define COLOR_SELECT_FG		COLOR_WHITE
+##define COLOR_SELECT_BG		COLOR_BLUE
+##define COLOR_SEPARATOR_FG	COLOR_WHITE
+##define COLOR_SEPARATOR_BG	COLOR_BLACK
+##define COLOR_EDIT_FG		COLOR_BLACK
+##define COLOR_EDIT_BG		COLOR_CYAN
+##define COLOR_ALERT_FG		COLOR_WHITE
+##define COLOR_ALERT_BG		COLOR_RED
+##define COLOR_URL_FG		COLOR_CYAN
+##define COLOR_URL_BG		COLOR_BLUE
+##define COLOR_PXE_FG		COLOR_BLACK
+##define COLOR_PXE_BG		COLOR_WHITE
+#',
+#  }
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!! DISABLING THIS DUE TO FAILED BUILDS USING THE NETBOOT.XYZ SCRIPT !!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
