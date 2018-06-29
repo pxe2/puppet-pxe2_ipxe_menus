@@ -27,7 +27,7 @@ IPXE_HASH=`git log -n 1 --pretty=format:"%H"`
 
 # generate <%= @pxe2_hostname %> iPXE disks
 make bin/ipxe.dsk bin/ipxe.iso bin/ipxe.lkrn bin/ipxe.usb bin/ipxe.kpxe bin/undionly.kpxe \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt
 mv bin/ipxe.dsk ../../build/ipxe/<%= @pxe2_hostname %>.dsk
 mv bin/ipxe.iso ../../build/ipxe/<%= @pxe2_hostname %>.iso
 mv bin/ipxe.lkrn ../../build/ipxe/<%= @pxe2_hostname %>.lkrn
@@ -37,14 +37,14 @@ mv bin/undionly.kpxe ../../build/ipxe/<%= @pxe2_hostname %>-undionly.kpxe
 
 # generate <%= @pxe2_hostname %> iPXE disk for Google Compute Engine
 make bin/ipxe.usb CONFIG=cloud EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-gce \
-TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt
+TRUST=ca-ipxe-org.crt,ca-pxe-to.crt
 cp -f bin/ipxe.usb disk.raw
 tar Sczvf <%= @pxe2_hostname %>-gce.tar.gz disk.raw
 mv <%= @pxe2_hostname %>-gce.tar.gz ../../build/ipxe/<%= @pxe2_hostname %>-gce.tar.gz
 
 # generate <%= @pxe2_hostname %>-packet iPXE disk
 make bin/undionly.kpxe \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-pxe-to.crt
 mv bin/undionly.kpxe ../../build/ipxe/<%= @pxe2_hostname %>-packet.kpxe
 
 # generate EFI iPXE disks
@@ -55,7 +55,7 @@ mv bin/undionly.kpxe ../../build/ipxe/<%= @pxe2_hostname %>-packet.kpxe
 #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 make clean
 make bin-x86_64-efi/ipxe.efi \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt
 mkdir -p efi_tmp/EFI/BOOT/
 cp bin-x86_64-efi/ipxe.efi efi_tmp/EFI/BOOT/bootx64.efi
 genisoimage -o ipxe.eiso efi_tmp
@@ -65,14 +65,14 @@ mv ipxe.eiso ../../build/ipxe/<%= @pxe2_hostname %>-efi.iso
 # generate EFI arm64 iPXE disk
 make clean
 make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
 bin-arm64-efi/snp.efi
 mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64.efi
 
 # generate <%= @pxe2_hostname %>-packet-arm64 iPXE disk
 make clean
 make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
 bin-arm64-efi/snp.efi
 mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-packet-arm64.efi
 
@@ -85,7 +85,7 @@ mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-packet-arm64.efi
 #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 make clean
 make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
 bin-arm64-efi/snp.efi
 mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64-experimental.efi
 
@@ -117,7 +117,7 @@ mkdir sigs
 for src_file in `ls src`
 do
   openssl cms -sign -binary -noattr -in src/$src_file \
-  -signer script/codesign.crt -inkey script/codesign.key -certfile script/ca-<%= @pxe2_hostname %>.crt -outform DER \
+  -signer script/codesign.crt -inkey script/codesign.key -certfile script/ca-pxe-to.crt -outform DER \
   -out sigs/$src_file.sig
   echo Generated signature for $src_file...
 done
