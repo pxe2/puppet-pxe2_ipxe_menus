@@ -9,8 +9,12 @@ mkdir -p build/ipxe
 # pull down upstream iPXE
 git clone --depth 1 https://github.com/ipxe/ipxe.git ipxe_build
 
-# copy iPXE config overrides into source tree
-cp ipxe/local/* ipxe_build/src/config/local/
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! Removing References to things located in ipxe/local as they cause efi builds to fail !!
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! # copy iPXE config overrides into source tree
+#  !! cp ipxe/local/* ipxe_build/src/config/local/
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # copy certs into source tree
 cp script/*.crt ipxe_build/src/
@@ -44,7 +48,11 @@ EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-<%=
 mv bin/undionly.kpxe ../../build/ipxe/<%= @pxe2_hostname %>-packet.kpxe
 
 # generate EFI iPXE disks
-cp config/local/general.h.efi config/local/general.h
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! Removing References to things located in ipxe/local as they cause efi builds to fail !!
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! cp config/local/general.h.efi config/local/general.h
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 make clean
 make bin-x86_64-efi/ipxe.efi \
 EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt
@@ -69,8 +77,12 @@ bin-arm64-efi/snp.efi
 mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-packet-arm64.efi
 
 # generate arm64 experimental
-cp config/local/nap.h.efi config/local/nap.h
-cp config/local/usb.h.efi config/local/usb.h
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! Removing References to things located in ipxe/local as they cause efi builds to fail !!
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  !! cp config/local/nap.h.efi config/local/nap.h
+#  !! cp config/local/usb.h.efi config/local/usb.h
+#  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 make clean
 make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
 EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-<%= @pxe2_hostname %>.crt \
