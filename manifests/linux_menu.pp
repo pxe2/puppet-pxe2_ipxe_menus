@@ -836,8 +836,8 @@ which you are curenntly using.")
       require => File["${pxe2_path}/src"],
     }
   }
-  if ! defined (Concat::Fragment["${distro}.ipxe-header"]) {
-    concat::fragment{"$distro}.ipxe-header":
+  if ! defined (Concat::Fragment["${distro}.ipxe-header.${name}"]) {
+    concat::fragment{"$distro}.ipxe-header.${name}":
       target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/01.header.os.ipxe.erb'),
       order   => 02,
