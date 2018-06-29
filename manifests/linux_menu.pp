@@ -829,4 +829,17 @@ which you are curenntly using.")
       order   => 02,
     }
   }
+
+  if ! defined (Concat["${pxe2_path}/src/${distro}.ipxe"]) {
+    concat{"-${pxe2_path}/src/${distro}.ipxe":
+      mode => '0777',
+    }
+  }
+  if ! defined (Concat::Fragment["${distro}.ipxe-header"]) {
+    concat::fragment{"$distro}.ipxe-header":
+      target  => "${pxe2_path}/src/${distro}.ipxe",
+      content => template('pxe2_ipxe_menus/01.header.os.ipxe.erb'),
+      order   => 02,
+    }
+  }
 }
