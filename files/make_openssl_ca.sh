@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set +x
+set -x
 
 CA_ROOT=$1
 CA_PASSWD=$2
@@ -10,14 +10,6 @@ mkdir -p $CA_ROOT/{certs,crl,newcerts,private}
 chmod 700 $CA_ROOT/private
 touch $CA_ROOT/index.txt
 echo 1000 > $CA_ROOT/serial
-
-sumask=$(umask)
-umask 077
-rm -f $CA_ROOT/passfile
-cat >$CA_ROOT/passfile <<EOM
-$CA_PASSWD
-EOM
-umask $sumask
 
 echo 1000 > $CA_ROOT/serial
 cat > $CA_ROOT/openssl.cnf <<EOF
@@ -202,6 +194,8 @@ openssl x509 -req \
      -out certs/codesign.crt
 sleep 10
 openssl pkcs12 \
-     -passin pass:$CA_PASSWD \
+     -passout pass:$CA_PASSWD \
      -export \
      -out private/codesign.pfx -inkey private/codesign.key -in certs/codesign.crt 
+
+tar -czf - * | openssl enc -e -aes256 -pass pass:$CA_PASSWD -out secrets.tar.enc
