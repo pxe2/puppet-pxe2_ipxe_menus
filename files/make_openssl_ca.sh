@@ -79,7 +79,7 @@ emailAddress            = optional
 #
 
 [ req ]
-# Options for the `req` tool (man req).
+# Options for the req tool (man req).
 default_bits        = 2048
 distinguished_name  = req_distinguished_name
 string_mask         = utf8only
@@ -122,6 +122,14 @@ authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true, pathlen:0
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 
+[ v3_req  ] 
+# Extensions to add to a certificate request
+subjectKeyIdentifier=hash
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature
+extendedKeyUsage = codeSigning, msCodeInd, msCodeCom
+nsCertType = client, email, objsign
+
 [ usr_cert ]
 # Extensions for client certificates (man x509v3_config).
 basicConstraints = CA:FALSE
@@ -158,14 +166,39 @@ EOF
 
 # Create CA Cert
 cd $CA_ROOT
-openssl genrsa -aes256 -passout pass:$CA_PASSWD -out private/ca.key.pem 4096
-chmod 400 private/ca.key.pem
+openssl genrsa -aes256 -passout pass:$CA_PASSWD -out private/ca.key 4096
+chmod 400 private/ca.key
 openssl req -config openssl.cnf \
       -passin pass:$CA_PASSWD \
       -subj '/C=US/ST=Massachusetts/L=Stoneham/CN=PXE.to Certificate Authority' \
-      -key private/ca.key.pem \
-      -new -x509 -days 7300 -sha256 -extensions v3_ca \
-      -out certs/ca.cert.pem
-sleep 20
-chmod 444 certs/ca.cert.pem
-openssl x509 -noout -text -in certs/ca.cert.pem
+      -key private/ca.key \
+      -new \
+      -x509 \
+      -days 7300 \
+      -sha256 \
+      -out certs/ca.crt
+sleep 10
+chmod 444 certs/ca.crt
+openssl x509 -noout -text -in certs/ca.crt
+openssl genrsa -passout pass:$CA_PASSWD -out private/codesign.key 4096
+chmod 400 private/codesign.key
+openssl req -config openssl.cnf \
+     -passin pass:$CA_PASSWD \
+     -subj '/C=US/ST=Massachusetts/L=Stoneham/CN=PXE.to Certificate Authority' \
+     -new \
+     -key private/codesign.key \
+     -reqexts v3_req \
+     -out newcerts/codesign.csr
+sleep 10
+#     -subj '/C=US/ST=Massachusetts/L=Stoneham/CN=PXE.to Certificate Authority' \
+openssl x509 -req \
+     -passin pass:$CA_PASSWD \
+     -days 7300 \
+     -in newcerts/codesign.csr \
+     -CA certs/ca.crt \
+     -CAkey private/ca.key \
+     -extfile openssl.cnf \
+     -set_serial 01 \
+     -out certs/codesign.crt
+sleep 10
+openssl pkcs12 -export -out private/codesign.pfx -inkey private/codesign.key -in certs/codsign.crt 
