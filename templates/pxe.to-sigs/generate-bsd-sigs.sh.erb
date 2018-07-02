@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # retrieve linux network installer distribution files
-wget --directory-prefix=files/freebsd boot.rackspace.com/distros/freebsd/{10.2,10.1,10.0}/FreeBSD-{10.2-RELEASE,10.1-RELEASE,10.0-RELEASE}-{amd64,i386}-bootonly-mfsbsd.hd
-wget --directory-prefix=files/openbsd ftp.openbsd.org/pub/OpenBSD/{5.8,5.7}/{amd64,i386}/cd{58,57}.iso
+wget --directory-prefix=files/freebsd boot.rackspace.com/distros/freebsd/{12.0,11.2,11.1,10.4,10.3,10.2,10.1,10.0}/FreeBSD-{12.0-RELEASE,11.2-RELEASE,11.1-RELEASE,10.4-RELEASE,10.3-RELEASE,10.2-RELEASE,10.1-RELEASE,10.0-RELEASE}-{amd64,i386}-bootonly-mfsbsd.hd
+wget --directory-prefix=files/openbsd ftp.openbsd.org/pub/OpenBSD/{6.1,6.2,6.3}/{amd64,i386}/cd{61,62,63}.iso
 
 DIR_LIST="openbsd/pub/OpenBSD/*/*/* \
           freebsd/distros/freebsd/*/*"
