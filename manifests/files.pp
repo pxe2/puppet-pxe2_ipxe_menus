@@ -360,6 +360,19 @@ openssl enc -d -aes256 -in secrets.tar.enc | tar xz -C .',
     content => template('pxe2_ipxe_menus/03.footer.boot.cfg.erb'),
     order   => 99,
   }
+->concat {"${pxe2_path}/src/linux.ipxe":
+    mode    => '0777',
+  }
+  concat::fragment{'linux.ipxe-default_header':
+    target  => "${pxe2_path}/src/linux.ipxe",
+    content => template('pxe2_ipxe_menus/01.header.linux.ipxe.erb'),
+    order   => 01,
+  }
+  concat::fragment{'linux.ipxe-default_footer':
+    target  => "${pxe2_path}/src/linux.ipxe",
+    content => template('pxe2_ipxe_menus/03.footer.linux.ipxe.erb'),
+    order   => 99,
+  }
 ->file {"${pxe2_path}/src/netinfo.ipxe":
     ensure => file,
     mode   => '0777',

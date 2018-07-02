@@ -830,6 +830,15 @@ which you are curenntly using.")
     }
   }
 
+  # pxe2/src/linux.ipxe
+  if ! defined (Concat::Fragment["linux-ipxe-os-${name}"]) {
+    concat::fragment{"linux.ipxe-os-${name}":
+      target  => "${pxe2_path}/README.md",
+      content => template('pxe2_ipxe_menus/02.distro.linux.ipxe.erb'),
+      order   => 02,
+    }
+  }
+  # distro.ipxe
   if ! defined (Concat["${pxe2_path}/src/${distro}.ipxe"]) {
     concat{"${pxe2_path}/src/${distro}.ipxe":
       mode => '0777',
