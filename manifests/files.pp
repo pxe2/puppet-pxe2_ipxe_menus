@@ -303,7 +303,6 @@ openssl enc -d -aes256 -in secrets.tar.enc | tar xz -C .',
   # ************************************************************
   # *************** iPXE Boot Menu Entrypoint ******************
   # ************************************************************
-
 ->file {"${pxe2_path}/src/index.html":
     ensure  => file,
     mode    => '0777',

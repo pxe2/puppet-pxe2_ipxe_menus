@@ -17,7 +17,9 @@ git clone --depth 1 https://github.com/ipxe/ipxe.git ipxe_build
 #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # copy certs into source tree
-cp script/*.crt ipxe_build/src/
+wget http://ca.ipxe.org/ca.crt ipxe_build/src/ca-ipxe-org.crt
+cp script/certs/ca.crt ipxe_build/src/ca-pxe-to.crt
+cp script/certs/codesign.crt ipxe_build/src/codesign.crt
 
 # build iPXE disks
 cd ipxe_build/src
