@@ -119,7 +119,7 @@ mkdir sigs
 for src_file in `ls src`
 do
   openssl cms -sign -binary -noattr -in src/$src_file \
-  -signer script/codesign.crt -inkey script/codesign.key -certfile script/ca-pxe-to.crt -outform DER \
+  -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
   -out sigs/$src_file.sig
   echo Generated signature for $src_file...
 done
