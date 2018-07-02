@@ -201,4 +201,7 @@ openssl x509 -req \
      -set_serial 01 \
      -out certs/codesign.crt
 sleep 10
-openssl pkcs12 -export -out private/codesign.pfx -inkey private/codesign.key -in certs/codsign.crt 
+openssl pkcs12 \
+     -passin pass:$CA_PASSWD \
+     -export \
+     -out private/codesign.pfx -inkey private/codesign.key -in certs/codesign.crt 
