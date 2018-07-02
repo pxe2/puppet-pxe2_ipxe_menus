@@ -27,6 +27,7 @@ class pxe2_ipxe_menus::files(
     "${pxe2_path}/src",
     "${pxe2_path}/src/sigs",
     "${pxe2_path}/script",
+    "${pxe2_path}/files",
     "${pxe2_path}/ipxe",
     "${pxe2_path}/ipxe/disks",
     "${pxe2_path}/ipxe/local",
@@ -45,6 +46,31 @@ class pxe2_ipxe_menus::files(
     ensure => file,
     mode   => '0777',
     content => template('pxe2_ipxe_menus/scripts/prep-release.sh.erb'),
+  }
+->file{"${pxe2_path}/script/generate-bsd-sigs.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('templates/pxe.to-sigs/generate-bsd-sigs.sh.erb'),
+  }
+->file{"${pxe2_path}/script/generate-freedos-sigs.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('templates/pxe.to-sigs/generate-freedos-sigs.sh.erb'),
+  }
+->file{"${pxe2_path}/script/generate-hypervisor-sigs.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('templates/pxe.to-sigs/generate-hypervisor-sigs.sh.erb'),
+  }
+->file{"${pxe2_path}/script/generate-linux-sigs.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('templates/pxe.to-sigs/generate-linux-sigs.sh.erb'),
+  }
+->file{"${pxe2_path}/script/generate-utility-sigs.sh":
+    ensure => file,
+    mode   => '0777',
+    content => template('templates/pxe.to-sigs/generate-utility-sigs.sh.erb'),
   }
 ->file{"${pxe2_path}/script/decrypt-secrets.sh":
     ensure => file,
