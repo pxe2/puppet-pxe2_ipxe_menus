@@ -848,6 +848,13 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["${distro}.ipxe-header.${name}"]) {
     concat::fragment{"$distro}.ipxe-header.${name}":
       target  => "${pxe2_path}/src/${distro}.ipxe",
+      content => template('pxe2_ipxe_menus/01.header.os.ipxe.erb'),
+      order   => 02,
+    }
+  }
+  if ! defined (Concat::Fragment["${distro}.ipxe-distro.${name}"]) {
+    concat::fragment{"$distro}.ipxe-distro.${name}":
+      target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/02.os.ipxe.erb'),
       order   => 02,
     }
