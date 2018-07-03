@@ -124,9 +124,9 @@ do
   echo Generated signature for $src_file...
 done
 
-for src_file in `ls src/{kickstart,autoyast,preseed,cloud-init.yml}/*.*`
+for src_file in `ls src/{autoyast,cloud-config.yml,kickstart,preseed}`
 do
-  openssl cms -sign -binary -noattr -in src/$src_file \
+  openssl cms -sign -binary -noattr -in src/{autoyast,cloud-config.yml,kickstart,preseed}/$src_file \
   -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
   -out sigs/$src_file.sig
   echo Generated signature for $src_file...
