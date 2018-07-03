@@ -4,9 +4,9 @@
 install
 text
 url --url=<%= @inst_repo %> 
-#--proxy=http://<%= @fqdn %>:8000
+#--proxy=http://<%= @pxe2_hostname %>:8000
 # ssl proxy for install
-#url --url=<%= @inst_repo %> --proxy=https://<%= @fqdn %>:8000 --noverifyssl
+#url --url=<%= @inst_repo %> --proxy=https://proxy_host:8000 --noverifyssl
 lang en_US.UTF-8
 keyboard us
 <% if @release < "5.0" %>

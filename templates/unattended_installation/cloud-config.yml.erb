@@ -213,7 +213,7 @@ write_files:
     owner: "root"
     content: |
       Automically provisioned from pxe using the following cloud-config url 
-      http://<%= @fqdn %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
+      http://<%= @pxe2_hostname %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
 
   - path: "/tmp/install-docker-compose.sh"
     permissions: "0777"
@@ -249,7 +249,7 @@ write_files:
   - path: "/exports/README"
     content: |
       Provisioned automically over pxe using the following cloud-config url 
-      http://<%= @fqdn %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
+      http://<%= @pxe2_hostname %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
 
   - path: "/tmp/install-docker-volume-netshare.sh"
     permissions: "0777"
