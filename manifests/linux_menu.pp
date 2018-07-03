@@ -865,6 +865,6 @@ which you are curenntly using.")
     path    => "${pxe2_path}/src/${name}.ipxe",
     content => template("pxe2_ipxe_menus/manual_install.ipxe.erb"),
     require => File[ "${pxe2_path}/src" ],
-  } notice(File["${pxe2_path}/src/${autofile}/${name}.ipxe"])
+  } notice(File["${pxe2_path}/src/${name}.ipxe"])
 
 }
