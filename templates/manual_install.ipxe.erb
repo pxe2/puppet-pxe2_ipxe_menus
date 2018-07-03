@@ -1,0 +1,11 @@
+#!ipxe
+dhcp
+echo Starting Manual <%= @name %>  Installation for ${hostname}
+set base-url <%= @inst_repo %>
+kernel ${base-url}/<%= @pxekernel %>
+initrd ${base-url}/<%= @src_initrd %>
+boot || 
+# If everything failed, give the user some options
+echo Boot from ${base-url} failed
+prompt --key 0x197e --timeout 2000 Press F12 to investigate || exit
+shell

@@ -859,4 +859,12 @@ which you are curenntly using.")
       order   => 02,
     }
   }
+  # name.ipxe
+  file { "${name}.ipxe":
+    ensure  => file,
+    path    => "${pxe2_path}/src/${name}.ipxe",
+    content => template("pxe2_ipxe_menus/manual_install.ipxe.erb"),
+    require => File[ "${pxe2_path}/src" ],
+  } notice(File["${pxe2_path}/src/${autofile}/${name}.ipxe"])
+
 }
