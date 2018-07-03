@@ -124,9 +124,31 @@ do
   echo Generated signature for $src_file...
 done
 
-for src_file in `ls src/{autoyast,cloud-config.yml,kickstart,preseed}`
+for src_file in `ls src/autoyast`
 do
-  openssl cms -sign -binary -noattr -in src/{autoyast,cloud-config.yml,kickstart,preseed}/$src_file \
+  openssl cms -sign -binary -noattr -in src/autoyast/$src_file \
+  -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
+  -out sigs/$src_file.sig
+  echo Generated signature for $src_file...
+done
+
+for src_file in `ls src/cloud-config.yml`
+do
+  openssl cms -sign -binary -noattr -in src/cloud-config.yml/$src_file \
+  -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
+  -out sigs/$src_file.sig
+  echo Generated signature for $src_file...
+done
+for src_file in `ls src/kickstart`
+do
+  openssl cms -sign -binary -noattr -in src/kickstart/$src_file \
+  -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
+  -out sigs/$src_file.sig
+  echo Generated signature for $src_file...
+done
+for src_file in `ls src/preseed`
+do
+  openssl cms -sign -binary -noattr -in src/preseed/$src_file \
   -signer script/certs/codesign.crt -inkey script/private/codesign.key -certfile script/certs/ca.crt -outform DER \
   -out sigs/$src_file.sig
   echo Generated signature for $src_file...
