@@ -76,7 +76,8 @@ class pxe2_ipxe_menus::files(
     ensure => file,
     mode   => '0777',
     content => '#! /usr/bin/env bash
-openssl enc -d -aes256 -in secrets.tar.enc | tar xz -C .',
+CA_PASSWD=$1
+openssl enc -pass pass:${CA_PASSWD} -d -aes256 -in secrets.tar.enc | tar xz -C .',
   }
 ->file{[
     "${pxe2_path}/docs",
