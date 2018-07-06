@@ -39,11 +39,11 @@ goto <%= @distro %>_boot
 :<%= @distro %>_boot
 set dir ${dir}${menu}-installer/${arch_a}
 imgfree
-kernel http://${<%= @distro %>_mirror}/${dir}/linux ${install_params} ${netcfg} ${mirrorcfg} ${console} -- quiet ${params} initrd=initrd.gz
-initrd http://${<%= @distro %>_mirror}/${dir}/initrd.gz
+kernel http://${<%= @distro %>_mirror}/${dir}/<%= @pxekernel %> ${install_params} ${netcfg} ${mirrorcfg} ${console} -- quiet ${params} initrd=<%= @srcinitrd %>
+initrd http://${<%= @distro %>_mirror}/${dir}/<%= @srcinitrd %>
 echo
 echo MD5sums:
-md5sum linux initrd.gz
+md5sum <%= @pxekernel %> <%= @srcinitrd %>
 iseq ${img_sigs_enabled} true && iseq ${older_release} true && goto skip_sigs ||
 iseq ${img_sigs_enabled} true && goto verify_sigs || goto skip_sigs
 :verify_sigs
