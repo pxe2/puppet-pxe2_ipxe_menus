@@ -2,7 +2,7 @@
 LOGFILE='/root/secondboot.log'
 exec >> $LOGFILE 2>&1
 
-QUARTERMASTER=<%= @fqdn %>
+QUARTERMASTER=<%= @pxe2_hostname %>
 
 # This script will run the second time the system boots. Even
 # though we've told it to run after networking is enabled,

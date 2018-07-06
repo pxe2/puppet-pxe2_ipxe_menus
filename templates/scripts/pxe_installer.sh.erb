@@ -18,11 +18,11 @@ sudo hostnamectl set-hostname $NEWHOSTNAME
 
 # Download cloud-config
 <% if @distro == 'coreos' %>
-curl -O http://<%= @fqdn %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
+curl -O http://<%= @pxe2_hostname %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
 sed -i "/hostname: coreos/c\hostname: $NEWHOSTNAME" ./<%= @name %>.<%= @autofile %>
 <% end %>
 <% if @distro == 'rancheros' %>
-wget http://<%= @fqdn %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
+wget http://<%= @pxe2_hostname %>/<%= @distro %>/<%= @autofile %>/<%= @name %>.<%= @autofile %>
 sed -i "/hostname: rancheros/c\hostname: $NEWHOSTNAME" ./<%= @name %>.<%= @autofile %>
 <% end %>
 #sed -i "/ discovery: \"https://discovery.etcd.io/<token>\"/c\ $DISCOVERY" ./<%= @name %>.<%= @autofile %>
