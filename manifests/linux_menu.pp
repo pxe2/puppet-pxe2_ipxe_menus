@@ -807,7 +807,7 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["menu.ipxe-${distro}.menu_entry"]) {
     concat::fragment { "menu.ipxe-${distro}.menu_entry":
       target  => "${pxe2_path}/src/menu.ipxe",
-      content => template('pxe2_ipxe_menus/02.distro.menu.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/02.distro.os.ipxe.erb'),
       order   => 30,
     }
   }
