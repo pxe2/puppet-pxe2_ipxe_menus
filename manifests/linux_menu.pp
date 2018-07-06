@@ -831,7 +831,7 @@ which you are curenntly using.")
   }
 
   # pxe2/src/linux.ipxe
-  if ! defined (Concat::Fragment["linux-ipxe-${distro}"]) {
+  if ! defined (Concat::Fragment["linux.ipxe-${distro}"]) {
     concat::fragment{"linux.ipxe-${distro}":
       target  => "${pxe2_path}/src/linux.ipxe",
       content => template('pxe2_ipxe_menus/02.linux.menu.ipxe.erb'),
