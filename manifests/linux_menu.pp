@@ -843,27 +843,27 @@ which you are curenntly using.")
     concat{"${pxe2_path}/src/${distro}.ipxe":
       mode => '0777',
       require => File["${pxe2_path}/src"],
-    }
+    } notice("${pxe2_path}/src/${distro}.ipxe")
   }
-  if ! defined (Concat::Fragment["${distro}.ipxe-header.${name}"]) {
-    concat::fragment{"$distro}.ipxe-header.${name}":
+  if ! defined (Concat::Fragment["${distro}.ipxe-header"]) {
+    concat::fragment{"${distro}.ipxe-header":
       target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/01.header.os.ipxe.erb'),
-      order   => 02,
+      order   => 01,
     }
   }
-  if ! defined (Concat::Fragment["${distro}.ipxe-distro.${name}"]) {
-    concat::fragment{"$distro}.ipxe-distro.${name}":
+  if ! defined (Concat::Fragment["${distro}.ipxe-distro"]) {
+    concat::fragment{"${distro}.ipxe-distro":
       target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/02.os.ipxe.erb'),
-      order   => 02,
-    }
+      order   => 50,
+    } notice("${distro}.ipxe-distro.${name}")
   }
-  if ! defined (Concat::Fragment["${distro}.ipxe-footer.${name}"]) {
-    concat::fragment{"$distro}.ipxe-footer.${name}":
+  if ! defined (Concat::Fragment["${distro}.ipxe-footer"]) {
+    concat::fragment{"${distro}.ipxe-footer":
       target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/03.footer.os.ipxe.erb'),
-      order   => 02,
+      order   => 99,
     }
   }
   # name.ipxe
