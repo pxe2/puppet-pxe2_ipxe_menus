@@ -12,12 +12,12 @@ set latest_version 1.04
 echo ${cls}
 iseq ${version} ${latest_version} && goto version_up2date ||
 echo
-echo Updated version of netboot.xyz is available:
+echo Updated version of pxe.to is available:
 echo
 echo Running version.....${version}
 echo Updated version.....${latest_version}
 echo
-echo Please download the latest version from netboot.xyz.
+echo Please download the latest version from pxe.to.
 echo
 echo Attempting to chain to latest version...
 chain --autofree http://${boot_domain}/ipxe/${ipxe_disk} ||
