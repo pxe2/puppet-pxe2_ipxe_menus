@@ -834,7 +834,7 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["linux-ipxe-os-${name}"]) {
     concat::fragment{"linux.ipxe-os-${name}":
       target  => "${pxe2_path}/README.md",
-      content => template('pxe2_ipxe_menus/02.distro.linux.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/02.linux.menu.ipxe.erb'),
       order   => 02,
     }
   }
