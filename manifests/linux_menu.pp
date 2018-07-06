@@ -848,21 +848,21 @@ which you are curenntly using.")
   if ! defined (Concat::Fragment["${distro}.ipxe-header"]) {
     concat::fragment{"${distro}.ipxe-header":
       target  => "${pxe2_path}/src/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/01.header.os.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/01.header.distro.ipxe.erb'),
       order   => 01,
     } notice("${distro}.ipxe-header")
   }
   if ! defined (Concat::Fragment["${distro}.ipxe-distro"]) {
     concat::fragment{"${distro}.ipxe-distro":
       target  => "${pxe2_path}/src/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/02.distro.os.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/02.distro.ipxe.erb'),
       order   => 50,
     } notice("${distro}.ipxe-distro")
   }
   if ! defined (Concat::Fragment["${distro}.ipxe-footer"]) {
     concat::fragment{"${distro}.ipxe-footer":
       target  => "${pxe2_path}/src/${distro}.ipxe",
-      content => template('pxe2_ipxe_menus/03.footer.os.ipxe.erb'),
+      content => template('pxe2_ipxe_menus/03.footer.distro.ipxe.erb'),
       order   => 99,
     } notice("${distro}.ipxe-footer")
   }
