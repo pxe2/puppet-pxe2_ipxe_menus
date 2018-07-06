@@ -852,8 +852,8 @@ which you are curenntly using.")
       order   => 01,
     } notice("${distro}.ipxe-header")
   }
-  if ! defined (Concat::Fragment["${distro}.ipxe-distro"]) {
-    concat::fragment{"${distro}.ipxe-distro":
+  if ! defined (Concat::Fragment["${distro}.ipxe-distro.${name}"]) {
+    concat::fragment{"${distro}.ipxe-distro.${name}":
       target  => "${pxe2_path}/src/${distro}.ipxe",
       content => template('pxe2_ipxe_menus/02.distro.ipxe.erb'),
       order   => 50,
