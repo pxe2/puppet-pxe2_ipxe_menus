@@ -9,6 +9,7 @@ define pxe2_ipxe_menus::linux_menu(
   # The following pxe menu variables are required for the templates used in this class
   String $pxe2_path                               = $pxe2_ipxe_menus::pxe2_path,
   String $pxe2_hostname                           = $pxe2_ipxe_menus::pxe2_hostname,
+  String $pxe2_boothost                           = $pxe2_ipxe_menus::pxe2_boothost,
   String $default_pxeboot_option                  = $pxe2_ipxe_menus::default_pxeboot_option,
   String $pxe_menu_timeout                        = $pxe2_ipxe_menus::pxe_menu_timeout,
   String $pxe_menu_total_timeout                  = $pxe2_ipxe_menus::pxe_menu_total_timeout,

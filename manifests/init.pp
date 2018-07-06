@@ -7,6 +7,7 @@
 class pxe2_ipxe_menus (
   String $pxe2_path                                  = '/pxe2',
   String $pxe2_hostname                              = 'pxe.to',
+  String $pxe2_boothost                             = 'i.pxe.to',
   Optional[String] $preferred_nameserver             = undef,
   Optional[Boolean] $dban_enable                     = undef,
   String $syslinux_version                           = '6.03',
