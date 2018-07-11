@@ -13,7 +13,7 @@ VERSION=`cat VERSION`
 set -x
 echo "version: $VERSION"
 # Bump Version in metadata.json
-sed -i '' 's/^.*\"version\"\:.*/\"version\"\:\ \"'"$VERSION"'\",/' metadata.json
+sed -i '' 's/^.*\"version\"\:.*/\"version\"\:\ \"'"$VERSION"'\",/' ./metadata.json
 
 # run build
 
