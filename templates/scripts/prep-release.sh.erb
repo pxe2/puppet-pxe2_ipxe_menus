@@ -65,18 +65,18 @@ mv bin-x86_64-efi/ipxe.efi ../../build/ipxe/<%= @pxe2_hostname %>.efi
 mv ipxe.eiso ../../build/ipxe/<%= @pxe2_hostname %>-efi.iso
 
 # generate EFI arm64 iPXE disk
-#make clean
-#make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-#EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
-#bin-arm64-efi/snp.efi
-#mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64.efi
+make clean
+make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
+bin-arm64-efi/snp.efi
+mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64.efi
 
 # generate <%= @pxe2_hostname %>-packet-arm64 iPXE disk
-#make clean
-#make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-#EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
-#bin-arm64-efi/snp.efi
-#mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-packet-arm64.efi
+make clean
+make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %>-packet TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
+bin-arm64-efi/snp.efi
+mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-packet-arm64.efi
 
 # generate arm64 experimental
 #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -85,11 +85,11 @@ mv ipxe.eiso ../../build/ipxe/<%= @pxe2_hostname %>-efi.iso
 #  !! cp config/local/nap.h.efi config/local/nap.h
 #  !! cp config/local/usb.h.efi config/local/usb.h
 #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#make clean
-#make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
-#EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
-#bin-arm64-efi/snp.efi
-#mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64-experimental.efi
+make clean
+make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 \
+EMBED=../../ipxe/disks/<%= @pxe2_hostname %> TRUST=ca-ipxe-org.crt,ca-pxe-to.crt \
+bin-arm64-efi/snp.efi
+mv bin-arm64-efi/snp.efi ../../build/ipxe/<%= @pxe2_hostname %>-arm64-experimental.efi
 
 # return to root
 cd ../..
