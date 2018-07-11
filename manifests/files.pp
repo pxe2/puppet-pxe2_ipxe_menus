@@ -32,7 +32,7 @@ class pxe2_ipxe_menus::files(
     "${pxe2_path}/ipxe",
     "${pxe2_path}/ipxe/disks",
     "${pxe2_path}/ipxe/local",
-    "${pxe2_path}/bin",
+    "${pxe2_path}/src/bin",
   ]:
     ensure  => directory,
     mode    => '0777',
@@ -309,21 +309,21 @@ openssl enc -pass pass:${CA_PASSWD} -d -aes256 -in secrets.tar.enc | tar xz -C .
   # packages, the secondboot script, sets hostname and additional 
   # startup config then reboots.
 
-->file {"${pxe2_path}/bin/firstboot":
+->file {"${pxe2_path}/src/bin/firstboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/firstboot.erb'),
   }
   # Secondboot Script
   # Executes configuration managment ( Puppet Currently )
-->file {"${pxe2_path}/bin/secondboot":
+->file {"${pxe2_path}/src/bin/secondboot":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/secondboot.erb'),
   }
   # Postinstall Script
   # Installs the firstboot script and reboots the system
-->file {"${pxe2_path}/bin/postinstall":
+->file {"${pxe2_path}/src/bin/postinstall":
     ensure  => file,
     mode    => '0777',
     content => template('pxe2_ipxe_menus/scripts/postinstall.erb'),
